@@ -60,7 +60,7 @@ bintray
     pkg
     {
         repo = 'maven'
-        name = 'android-utils'
+        name = 'androidutils'
         licenses = ['MIT']
         publish = true
         version
