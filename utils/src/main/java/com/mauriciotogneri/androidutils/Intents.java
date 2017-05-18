@@ -11,11 +11,11 @@ import android.support.v4.content.ContextCompat;
 
 import java.util.ArrayList;
 
-public class IntentHelper
+public class Intents
 {
     private final Context context;
 
-    public IntentHelper(Context context)
+    public Intents(Context context)
     {
         this.context = context;
     }
