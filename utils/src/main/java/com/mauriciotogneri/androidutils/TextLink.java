@@ -14,18 +14,24 @@ import java.util.regex.Pattern;
 
 public class TextLink
 {
-    public static void format(TextView textView, String text, final @ColorInt int color, final LinkClickListener listener)
+    private final String pattern;
+
+    public TextLink(String pattern)
     {
-        Pattern pattern = Pattern.compile("\\*.*\\*");
-        Matcher matcher = pattern.matcher(text);
+        this.pattern = pattern;
+    }
+
+    public void format(TextView textView, String text, final @ColorInt int color, final boolean underline, final LinkClickListener listener)
+    {
+        Matcher matcher = Pattern.compile(pattern).matcher(text);
 
         if (matcher.find())
         {
-            int idx = matcher.start();
-            String stringMatch = matcher.group();
+            int startIndex = matcher.start();
 
-            // remove * before and after
-            final String link = stringMatch.substring(1, stringMatch.length() - 1);
+            String stringMatched = matcher.group();
+            final String link = stringMatched.substring(1, stringMatched.length() - 1);
+
             String finalText = matcher.replaceFirst(link);
 
             ClickableSpan clickableSpan = new ClickableSpan()
@@ -39,12 +45,13 @@ public class TextLink
                 @Override
                 public void updateDrawState(TextPaint textPaint)
                 {
+                    textPaint.setUnderlineText(underline);
                     textPaint.setColor(color);
                 }
             };
 
             SpannableString spannable = new SpannableString(finalText);
-            spannable.setSpan(clickableSpan, idx, idx + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannable.setSpan(clickableSpan, startIndex, startIndex + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             textView.setMovementMethod(LinkMovementMethod.getInstance());
             textView.setText(spannable);
