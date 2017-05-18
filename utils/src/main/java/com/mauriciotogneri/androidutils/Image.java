@@ -48,7 +48,7 @@ public class Image
         return save(new File(path));
     }
 
-    public boolean save(OutputStream outputStream) throws IOException
+    public boolean save(OutputStream outputStream)
     {
         return bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
     }
@@ -186,7 +186,7 @@ public class Image
 
     private static Image from(BitmapDecoder decoder, int maxWidth, int maxHeight)
     {
-        // first decode with inJustDecodeBounds=true to check dimensions
+        // decode with inJustDecodeBounds=true to check dimensions
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         decoder.decode(options);

@@ -22,32 +22,32 @@ public class AppFiles
         {
             File[] children = appDir.listFiles();
 
-            for (File folder : children)
+            for (File child : children)
             {
-                if (!TextUtils.equals(folder.getName(), "lib"))
+                if (!TextUtils.equals(child.getName(), "lib"))
                 {
-                    deleteFolder(folder);
+                    delete(child);
                 }
             }
         }
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    private void deleteFolder(File folder)
+    private void delete(File file)
     {
-        if (folder != null)
+        if (file != null)
         {
-            if (folder.isDirectory())
+            if (file.isDirectory())
             {
-                File[] list = folder.listFiles();
+                File[] list = file.listFiles();
 
                 for (File element : list)
                 {
-                    deleteFolder(element);
+                    delete(element);
                 }
             }
 
-            folder.delete();
+            file.delete();
         }
     }
 }

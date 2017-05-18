@@ -50,11 +50,9 @@ public class Intents
         return startActivity(intent);
     }
 
-    // TODO
-    public boolean takePicture(Activity activity, int resultCode)
+    public boolean pictureThumbnail(Activity activity, int resultCode)
     {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        //intent.putExtra(MediaStore.EXTRA_OUTPUT, path);
 
         return startActivityForResult(activity, intent, resultCode);
     }

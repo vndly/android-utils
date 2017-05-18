@@ -6,7 +6,6 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-// TODO: sha1, sha256, etc
 public class Encoding
 {
     private static final String UTF8 = "UTF-8";
@@ -31,10 +30,20 @@ public class Encoding
         return Base64.decode(text, Base64.DEFAULT);
     }
 
-    public String md5(String text) throws NoSuchAlgorithmException
+    public String md5(String input) throws NoSuchAlgorithmException
     {
-        MessageDigest digest = MessageDigest.getInstance("MD5");
-        digest.update(text.getBytes());
+        return hash("MD5", input);
+    }
+
+    public String sha256(String input) throws NoSuchAlgorithmException
+    {
+        return hash("SHA-256", input);
+    }
+
+    public String hash(String algorithm, String input) throws NoSuchAlgorithmException
+    {
+        MessageDigest digest = MessageDigest.getInstance(algorithm);
+        digest.update(input.getBytes());
         byte messageDigest[] = digest.digest();
 
         StringBuilder hexString = new StringBuilder();

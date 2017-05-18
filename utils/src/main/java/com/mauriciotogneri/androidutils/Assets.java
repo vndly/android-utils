@@ -10,7 +10,7 @@ public class Assets
 {
     private final Context context;
 
-    public Assets(Context context) throws IOException
+    public Assets(Context context)
     {
         this.context = context;
     }
