@@ -6,7 +6,8 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class EncodingHelper
+// TODO: sha1, sha256, etc
+public class Encoding
 {
     private static final String UTF8 = "UTF-8";
 
