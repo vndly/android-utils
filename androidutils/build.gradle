@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-def releaseVersion = '0.0.6'
+def releaseVersion = '0.0.7'
 def bintrayUser = hasProperty('bintray_user') ? bintray_user : ''
 def bintrayApiKey = hasProperty('bintray_apikey') ? bintray_apikey : ''
 
@@ -99,6 +99,9 @@ dependencies
 
     // gson
     compile 'com.google.code.gson:gson:2.8.0'
+
+    // joda time
+    compile 'joda-time:joda-time:2.9.9'
 
     // event bus
     compile 'org.greenrobot:eventbus:3.0.0'
