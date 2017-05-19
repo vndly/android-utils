@@ -10,17 +10,31 @@ public class Bus
 
     public static void register(Object subscriber)
     {
-        if (!EventBus.getDefault().isRegistered(subscriber))
+        try
         {
-            EventBus.getDefault().register(subscriber);
+            if (!EventBus.getDefault().isRegistered(subscriber))
+            {
+                EventBus.getDefault().register(subscriber);
+            }
+        }
+        catch (Exception e)
+        {
+            // ignore
         }
     }
 
     public static void unregister(Object subscriber)
     {
-        if (EventBus.getDefault().isRegistered(subscriber))
+        try
         {
-            EventBus.getDefault().unregister(subscriber);
+            if (EventBus.getDefault().isRegistered(subscriber))
+            {
+                EventBus.getDefault().unregister(subscriber);
+            }
+        }
+        catch (Exception e)
+        {
+            // ignore
         }
     }
 
