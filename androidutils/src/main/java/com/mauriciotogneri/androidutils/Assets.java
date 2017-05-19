@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class Assets
@@ -22,7 +23,7 @@ public class Assets
 
         try
         {
-            reader = new BufferedReader(new InputStreamReader(context.getAssets().open(path), "UTF-8"));
+            reader = new BufferedReader(new InputStreamReader(inputStream(path), "UTF-8"));
 
             String line;
 
@@ -45,5 +46,10 @@ public class Assets
     public String[] files(String path) throws IOException
     {
         return context.getAssets().list(path);
+    }
+
+    public InputStream inputStream(String path) throws IOException
+    {
+        return context.getAssets().open(path);
     }
 }
