@@ -50,6 +50,15 @@ public class Intents
         return startActivity(intent);
     }
 
+    public boolean takePicture(Uri uri, Activity activity, int resultCode)
+    {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+
+        return startActivityForResult(activity, intent, resultCode);
+    }
+
     public boolean pictureThumbnail(Activity activity, int resultCode)
     {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
