@@ -16,9 +16,54 @@ public class Record
         this.file = file;
     }
 
+    public Record(String path)
+    {
+        this(new File(path));
+    }
+
+    public Record(Uri uri)
+    {
+        this(uri.getPath());
+    }
+
+    public File file()
+    {
+        return file;
+    }
+
     public Uri uri()
     {
         return Uri.fromFile(file);
+    }
+
+    public boolean exists()
+    {
+        return file.exists();
+    }
+
+    public String name()
+    {
+        return file.getName();
+    }
+
+    public String path()
+    {
+        return file.getAbsolutePath();
+    }
+
+    public Record parent()
+    {
+        return new Record(file.getParentFile());
+    }
+
+    public boolean isDirectory()
+    {
+        return file.isDirectory();
+    }
+
+    public boolean isFile()
+    {
+        return file.isFile();
     }
 
     public boolean create() throws IOException

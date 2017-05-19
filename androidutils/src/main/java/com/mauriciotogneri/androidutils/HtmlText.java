@@ -7,7 +7,7 @@ import android.text.Spanned;
 public class HtmlText
 {
     @SuppressWarnings("deprecation")
-    public Spanned from(String html)
+    public static Spanned from(String html)
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
         {
