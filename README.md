@@ -5,5 +5,5 @@ A collection of utility classes for Android.
 Add the following dependency to your `build.gradle` file:
 
 ```groovy
-compile 'com.mauriciotogneri:androidutils:0.0.9'
+compile 'com.mauriciotogneri:androidutils:0.1.0'
 ```
