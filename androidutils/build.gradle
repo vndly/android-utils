@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-def releaseVersion = '0.2.0'
+def releaseVersion = '0.4.0'
 def bintrayUser = hasProperty('bintray_user') ? bintray_user : ''
 def bintrayApiKey = hasProperty('bintray_apikey') ? bintray_apikey : ''
 
@@ -94,6 +94,7 @@ artifacts {
 dependencies
 {
     // android
+    compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-annotations:25.3.1'
     compile 'com.android.support:customtabs:25.3.1'
 
