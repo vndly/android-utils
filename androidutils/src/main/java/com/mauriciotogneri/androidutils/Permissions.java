@@ -1,9 +1,11 @@
 package com.mauriciotogneri.androidutils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 
 import java.util.ArrayList;
@@ -11,11 +13,33 @@ import java.util.List;
 
 public class Permissions
 {
-    private final Activity activity;
+    private final Context context;
+    private final PermissionRequest permissionRequest;
 
-    public Permissions(Activity activity)
+    public Permissions(final Activity activity)
     {
-        this.activity = activity;
+        this.context = activity;
+        this.permissionRequest = new PermissionRequest()
+        {
+            @Override
+            public void request(String[] permissions, int requestCode)
+            {
+                ActivityCompat.requestPermissions(activity, permissions, requestCode);
+            }
+        };
+    }
+
+    public Permissions(Context context, final Fragment fragment)
+    {
+        this.context = context;
+        this.permissionRequest = new PermissionRequest()
+        {
+            @Override
+            public void request(String[] permissions, int requestCode)
+            {
+                fragment.requestPermissions(permissions, requestCode);
+            }
+        };
     }
 
     public boolean request(int requestCode, String... permissions)
@@ -26,7 +50,7 @@ public class Permissions
 
             if (permissionsNotGranted.length > 0)
             {
-                ActivityCompat.requestPermissions(activity, permissionsNotGranted, requestCode);
+                permissionRequest.request(permissionsNotGranted, requestCode);
 
                 return false;
             }
@@ -47,7 +71,7 @@ public class Permissions
 
         for (String permission : permissions)
         {
-            if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED)
+            if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED)
             {
                 result.add(permission);
             }
@@ -57,6 +81,11 @@ public class Permissions
         result.toArray(list);
 
         return list;
+    }
+
+    private interface PermissionRequest
+    {
+        void request(String[] permissions, int requestCode);
     }
 
     public static class PermissionsResult
