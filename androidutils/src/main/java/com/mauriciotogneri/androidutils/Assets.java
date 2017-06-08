@@ -4,6 +4,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 
+import com.mauriciotogneri.javautils.Files;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;

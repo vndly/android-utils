@@ -2,6 +2,8 @@ package com.mauriciotogneri.androidutils;
 
 import android.content.Context;
 
+import com.mauriciotogneri.javautils.Record;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
