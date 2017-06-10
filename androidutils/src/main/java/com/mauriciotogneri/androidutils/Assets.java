@@ -4,7 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 
-import com.mauriciotogneri.javautils.Files;
+import com.mauriciotogneri.javautils.Streams;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -65,7 +65,6 @@ public class Assets
 
         InputStream inputStream = contentResolver.openInputStream(uri);
 
-        Files files = new Files();
-        files.copy(inputStream, new FileOutputStream(file));
+        Streams.copy(inputStream, new FileOutputStream(file));
     }
 }
