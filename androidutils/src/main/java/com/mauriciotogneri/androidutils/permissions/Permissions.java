@@ -82,8 +82,8 @@ public class Permissions
 
     private void grantPermissions(Object target, int requestCode, String... permissions)
     {
-        PermissionsResult permissionsResult = new PermissionsResult(target, requestCode, permissions, new int[permissions.length]);
-        permissionsResult.process();
+        PermissionsResult permissionsResult = new PermissionsResult(target);
+        permissionsResult.process(requestCode, permissions, new int[permissions.length]);
     }
 
     private String[] permissionsWithStatus(Context context, int status, String... permissions)

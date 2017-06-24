@@ -7,19 +7,13 @@ import java.lang.reflect.Method;
 public class PermissionsResult
 {
     private final Object target;
-    private final int requestCode;
-    private final String permissions[];
-    private final int[] grantResults;
 
-    public PermissionsResult(Object target, int requestCode, String[] permissions, int[] grantResults)
+    public PermissionsResult(Object target)
     {
         this.target = target;
-        this.requestCode = requestCode;
-        this.permissions = permissions;
-        this.grantResults = grantResults;
     }
 
-    public void process()
+    public void process(int requestCode, String[] permissions, int[] grantResults)
     {
         for (int i = 0; i < grantResults.length; i++)
         {
