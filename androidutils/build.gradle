@@ -114,4 +114,7 @@ dependencies
 
     // event bus
     compile 'org.greenrobot:eventbus:3.0.0'
+
+    // aes crypto
+    compile 'com.scottyab:aes-crypto:0.0.4'
 }
