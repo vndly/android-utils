@@ -118,6 +118,40 @@ public class Intents
         return startActivity(intent);
     }
 
+    public boolean route(String address)
+    {
+        try
+        {
+            Uri uri = Uri.parse(String.format("geo:0,0?q=%s", Encoding.urlEncode(address)));
+
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            return startActivity(intent);
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+    }
+
+    public boolean route(double latitude, double longitude)
+    {
+        try
+        {
+            Uri uri = Uri.parse(String.format("geo:%s,%s?q=%s,%s", latitude, longitude, latitude, longitude));
+
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            return startActivity(intent);
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+    }
+
     public boolean openAppPlayStore(String packageName)
     {
         String uri = String.format("market://details?id=%s", packageName);

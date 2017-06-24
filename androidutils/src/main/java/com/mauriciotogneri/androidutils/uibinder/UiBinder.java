@@ -66,7 +66,7 @@ public class UiBinder
 
     private void bindFields(UiContainer uiContainer, final Object target)
     {
-        for (Field field : target.getClass().getDeclaredFields())
+        for (Field field : target.getClass().getFields())
         {
             BindView bindView = field.getAnnotation(BindView.class);
 
@@ -93,7 +93,7 @@ public class UiBinder
 
     private void bindMethods(UiContainer uiContainer, Object target)
     {
-        for (final Method method : target.getClass().getDeclaredMethods())
+        for (final Method method : target.getClass().getMethods())
         {
             CallableMethod callableMethod = new CallableMethod(method, target);
 

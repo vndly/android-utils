@@ -35,7 +35,7 @@ public class TextLink
         this.callback = callback;
     }
 
-    private TextLink(TextView target, String text, String pattern)
+    public TextLink(TextView target, String text, String pattern)
     {
         this(target, text, pattern, null, null, null, null, null);
     }

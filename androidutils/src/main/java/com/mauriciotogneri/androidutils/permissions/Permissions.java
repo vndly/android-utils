@@ -8,6 +8,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 
+import com.mauriciotogneri.javautils.Lists;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,10 +98,7 @@ public class Permissions
             }
         }
 
-        String[] list = new String[result.size()];
-        result.toArray(list);
-
-        return list;
+        return Lists.asArray(result, String.class);
     }
 
     private interface PermissionRequest
