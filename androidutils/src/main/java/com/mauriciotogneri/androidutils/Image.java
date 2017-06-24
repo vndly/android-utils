@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -92,6 +93,32 @@ public class Image
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
 
         return stream.toByteArray();
+    }
+
+    public Image resize(int width, int height)
+    {
+        Bitmap result = Bitmap.createScaledBitmap(bitmap, width, height, false);
+
+        bitmap.recycle();
+
+        return new Image(result);
+    }
+
+    public Image rotate(float degrees)
+    {
+        Matrix matrix = new Matrix();
+        matrix.setRotate(degrees);
+
+        Bitmap result = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, false);
+
+        bitmap.recycle();
+
+        return new Image(result);
+    }
+
+    public void recycle()
+    {
+        bitmap.recycle();
     }
 
     // ============================================================================================
