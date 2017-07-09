@@ -51,21 +51,25 @@ public abstract class MockWebServer implements Runnable
 
             while (isRunning)
             {
+                Socket socket = serverSocket.accept();
+
                 try
                 {
-                    Socket socket = serverSocket.accept();
                     handle(socket);
-                    socket.close();
                 }
                 catch (Exception e)
                 {
-                    onError(e);
+                    onRequestError(socket, e);
+                }
+                finally
+                {
+                    socket.close();
                 }
             }
         }
         catch (Exception e)
         {
-            onError(e);
+            onServerError(e);
         }
     }
 
@@ -81,13 +85,15 @@ public abstract class MockWebServer implements Runnable
         }
         else
         {
-            onNotFound(httpRequest);
+            onNotFound(socket, httpRequest);
         }
     }
 
-    protected abstract void onNotFound(HttpRequest httpRequest);
+    protected abstract void onNotFound(Socket socket, HttpRequest httpRequest);
 
-    protected abstract void onError(Exception exception);
+    protected abstract void onRequestError(Socket socket, Exception exception);
+
+    protected abstract void onServerError(Exception exception);
 
     private EndPoint endPoint(HttpRequest httpRequest)
     {
