@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -93,6 +94,13 @@ public class HttpResponse
         }
 
         public Builder array(Object... object)
+        {
+            this.body = Json.json(object);
+
+            return this;
+        }
+
+        public Builder list(List<?> object)
         {
             this.body = Json.json(object);
 
