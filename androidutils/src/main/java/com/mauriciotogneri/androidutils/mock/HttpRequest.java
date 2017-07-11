@@ -2,6 +2,8 @@ package com.mauriciotogneri.androidutils.mock;
 
 import android.text.TextUtils;
 
+import com.mauriciotogneri.androidutils.Encoding;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,13 +19,15 @@ public class HttpRequest
 {
     private final String method;
     private final String route;
+    private final List<String> cookies;
     private final Map<String, String> headers;
     private final String body;
 
-    public HttpRequest(String method, String route, Map<String, String> headers, String body)
+    public HttpRequest(String method, String route, List<String> cookies, Map<String, String> headers, String body)
     {
         this.method = method;
         this.route = route;
+        this.cookies = cookies;
         this.headers = headers;
         this.body = body;
     }
@@ -31,6 +35,11 @@ public class HttpRequest
     public boolean matches(String method, String pattern)
     {
         return this.method.equals(method) && route.matches(pattern);
+    }
+
+    public List<String> cookies()
+    {
+        return cookies;
     }
 
     public Map<String, String> headers()
@@ -57,13 +66,20 @@ public class HttpRequest
     {
         Map<String, String> result = new HashMap<>();
 
-        String[] parts = route.split("\\?")[1].split("&");
-
-        for (String part : parts)
+        try
         {
-            String[] param = part.split("=");
+            String[] parts = route.split("\\?")[1].split("&");
 
-            result.put(param[0], param[1]);
+            for (String part : parts)
+            {
+                String[] param = part.split("=");
+
+                result.put(param[0], Encoding.urlDecode(param[1]));
+            }
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
         }
 
         return result;
@@ -73,13 +89,20 @@ public class HttpRequest
     {
         Map<String, String> result = new HashMap<>();
 
-        String[] parts = body.split("&");
-
-        for (String part : parts)
+        try
         {
-            String[] param = part.split("=");
+            String[] parts = body.split("&");
 
-            result.put(param[0], param[1]);
+            for (String part : parts)
+            {
+                String[] param = part.split("=");
+
+                result.put(param[0], Encoding.urlDecode(param[1]));
+            }
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
         }
 
         return result;
@@ -89,6 +112,7 @@ public class HttpRequest
     {
         String method = null;
         String route = null;
+        List<String> cookies = new ArrayList<>();
         Map<String, String> headers = new HashMap<>();
         String body = null;
 
@@ -113,7 +137,17 @@ public class HttpRequest
                 }
 
                 String[] parts = line.split(":");
-                headers.put(parts[0], parts[1]);
+                String name = parts[0];
+                String value = parts[1];
+
+                if (name.equals("Cookie"))
+                {
+                    cookies.add(value);
+                }
+                else
+                {
+                    headers.put(name, value);
+                }
             }
         }
 
@@ -124,6 +158,6 @@ public class HttpRequest
             body = new String(buffer);
         }
 
-        return new HttpRequest(method, route, headers, body);
+        return new HttpRequest(method, route, cookies, headers, body);
     }
 }

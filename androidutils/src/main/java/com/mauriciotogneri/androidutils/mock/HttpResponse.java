@@ -5,18 +5,16 @@ import com.mauriciotogneri.javautils.Json;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 public class HttpResponse
 {
     private final HttpResponseCode code;
-    private final Map<String, String> headers;
+    private final List<String> headers;
     private final String body;
 
-    public HttpResponse(HttpResponseCode code, Map<String, String> headers, String body)
+    public HttpResponse(HttpResponseCode code, List<String> headers, String body)
     {
         this.code = code;
         this.headers = headers;
@@ -32,9 +30,9 @@ public class HttpResponse
             output = new PrintStream(outputStream);
             output.println(String.format("HTTP/1.0 %s", code));
 
-            for (Entry<String, String> entry : headers.entrySet())
+            for (String header : headers)
             {
-                output.println(String.format("%s: %s", entry.getKey(), entry.getValue()));
+                output.println(header);
             }
 
             if (body != null)
@@ -63,18 +61,18 @@ public class HttpResponse
     public static class Builder
     {
         private final HttpResponseCode code;
-        private Map<String, String> headers;
+        private List<String> headers;
         private String body;
 
         public Builder(HttpResponseCode code)
         {
             this.code = code;
-            this.headers = new HashMap<>();
+            this.headers = new ArrayList<>();
         }
 
         public Builder header(String name, String value)
         {
-            headers.put(name, value);
+            headers.add(String.format("%s: %s", name, value));
 
             return this;
         }
