@@ -47,6 +47,11 @@ public class HttpRequest
         return headers;
     }
 
+    public String body()
+    {
+        return body;
+    }
+
     public List<String> pathParameters(String regex)
     {
         List<String> result = new ArrayList<>();
