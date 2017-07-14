@@ -36,13 +36,13 @@ public class Intents
             @Override
             public void startActivity(Intent intent)
             {
-                target.startActivity(intent);
+                activity.startActivity(intent);
             }
 
             @Override
             public void startActivityForResult(Intent intent, int requestCode)
             {
-                target.startActivityForResult(intent, requestCode);
+                activity.startActivityForResult(intent, requestCode);
             }
         };
     }
