@@ -9,17 +9,66 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.ColorRes;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 
 import java.util.ArrayList;
 
 public class Intents
 {
-    private final Context context;
+    private final IntentTarget target;
 
-    public Intents(Context context)
+    public Intents(IntentTarget target)
     {
-        this.context = context;
+        this.target = target;
+    }
+
+    public Intents(final Activity activity)
+    {
+        this.target = new IntentTarget()
+        {
+            @Override
+            public Context context()
+            {
+                return activity;
+            }
+
+            @Override
+            public void startActivity(Intent intent)
+            {
+                target.startActivity(intent);
+            }
+
+            @Override
+            public void startActivityForResult(Intent intent, int requestCode)
+            {
+                target.startActivityForResult(intent, requestCode);
+            }
+        };
+    }
+
+    public Intents(final Fragment fragment)
+    {
+        this.target = new IntentTarget()
+        {
+            @Override
+            public Context context()
+            {
+                return fragment.getContext();
+            }
+
+            @Override
+            public void startActivity(Intent intent)
+            {
+                fragment.startActivity(intent);
+            }
+
+            @Override
+            public void startActivityForResult(Intent intent, int requestCode)
+            {
+                fragment.startActivityForResult(intent, requestCode);
+            }
+        };
     }
 
     public boolean shareLink(String url)
@@ -52,7 +101,7 @@ public class Intents
         return startActivity(intent);
     }
 
-    public boolean takePicture(Uri uri, Activity activity, int resultCode)
+    public boolean takePicture(Uri uri, int resultCode)
     {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
@@ -63,28 +112,28 @@ public class Intents
         }
         else
         {
-            ClipData clip = ClipData.newUri(activity.getContentResolver(), "picture", uri);
+            ClipData clip = ClipData.newUri(target.context().getContentResolver(), "picture", uri);
 
             intent.setClipData(clip);
             intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         }
 
-        return startActivityForResult(activity, intent, resultCode);
+        return startActivityForResult(target, intent, resultCode);
     }
 
-    public boolean pictureThumbnail(Activity activity, int resultCode)
+    public boolean pictureThumbnail(int resultCode)
     {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        return startActivityForResult(activity, intent, resultCode);
+        return startActivityForResult(target, intent, resultCode);
     }
 
-    public boolean selectFromGallery(String type, Activity activity, int resultCode)
+    public boolean selectFromGallery(String type, int resultCode)
     {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType(type);
 
-        return startActivityForResult(activity, intent, resultCode);
+        return startActivityForResult(target, intent, resultCode);
     }
 
     public boolean openFile(Uri uri, String type)
@@ -171,17 +220,17 @@ public class Intents
     {
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         builder.addDefaultShareMenuItem();
-        builder.setToolbarColor(ContextCompat.getColor(context, color));
+        builder.setToolbarColor(ContextCompat.getColor(target.context(), color));
 
         CustomTabsIntent customTabsIntent = builder.build();
-        customTabsIntent.launchUrl(context, Uri.parse(url));
+        customTabsIntent.launchUrl(target.context(), Uri.parse(url));
     }
 
     public boolean startActivity(Intent intent)
     {
-        if (intent.resolveActivity(context.getPackageManager()) != null)
+        if (intent.resolveActivity(target.context().getPackageManager()) != null)
         {
-            context.startActivity(intent);
+            target.startActivity(intent);
 
             return true;
         }
@@ -191,11 +240,11 @@ public class Intents
         }
     }
 
-    public boolean startActivityForResult(Activity activity, Intent intent, int requestCode)
+    public boolean startActivityForResult(IntentTarget target, Intent intent, int requestCode)
     {
-        if (intent.resolveActivity(activity.getPackageManager()) != null)
+        if (intent.resolveActivity(target.context().getPackageManager()) != null)
         {
-            activity.startActivityForResult(intent, requestCode);
+            target.startActivityForResult(intent, requestCode);
 
             return true;
         }
@@ -203,5 +252,14 @@ public class Intents
         {
             return false;
         }
+    }
+
+    public interface IntentTarget
+    {
+        Context context();
+
+        void startActivity(Intent intent);
+
+        void startActivityForResult(Intent intent, int requestCode);
     }
 }
