@@ -75,7 +75,7 @@ public class Intents
 
     public boolean custom(Intent intent)
     {
-        return startActivity(intent);
+        return startActivity(target, intent);
     }
 
     public boolean custom(Intent intent, int resultCode)
@@ -90,7 +90,7 @@ public class Intents
         intent.putExtra(Intent.EXTRA_TEXT, url);
         intent.setType("text/url");
 
-        return startActivity(intent);
+        return startActivity(target, intent);
     }
 
     public boolean sendEmail(String address, String subject, String text)
@@ -101,7 +101,7 @@ public class Intents
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT, text);
 
-        return startActivity(intent);
+        return startActivity(target, intent);
     }
 
     public boolean callNumber(String phoneNumber)
@@ -110,7 +110,7 @@ public class Intents
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setData(Uri.parse(String.format("tel:%s", phoneNumber)));
 
-        return startActivity(intent);
+        return startActivity(target, intent);
     }
 
     public boolean takePicture(Uri uri, int resultCode)
@@ -164,7 +164,7 @@ public class Intents
         intent.setDataAndType(uri, type);
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-        return startActivity(intent);
+        return startActivity(target, intent);
     }
 
     public boolean shareFile(Uri uri, String type)
@@ -175,7 +175,7 @@ public class Intents
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.setType(type);
 
-        return startActivity(intent);
+        return startActivity(target, intent);
     }
 
     private boolean shareFiles(ArrayList<Uri> uris)
@@ -186,7 +186,7 @@ public class Intents
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
 
-        return startActivity(intent);
+        return startActivity(target, intent);
     }
 
     public boolean address(String address)
@@ -198,7 +198,7 @@ public class Intents
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            return startActivity(intent);
+            return startActivity(target, intent);
         }
         catch (Exception e)
         {
@@ -215,7 +215,7 @@ public class Intents
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            return startActivity(intent);
+            return startActivity(target, intent);
         }
         catch (Exception e)
         {
@@ -228,7 +228,7 @@ public class Intents
         String uri = String.format("market://details?id=%s", packageName);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
 
-        return startActivity(intent);
+        return startActivity(target, intent);
     }
 
     public void openAppPlayStoreOnWeb(String packageName)
@@ -248,7 +248,7 @@ public class Intents
         customTabsIntent.launchUrl(target.context(), Uri.parse(url));
     }
 
-    public boolean startActivity(Intent intent)
+    public boolean startActivity(IntentTarget target, Intent intent)
     {
         if (intent.resolveActivity(target.context().getPackageManager()) != null)
         {
