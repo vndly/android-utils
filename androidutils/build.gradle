@@ -2,14 +2,14 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-def releaseVersion = '2.3.1'
+def releaseVersion = '2.4.0'
 def bintrayUser = hasProperty('bintray_user') ? bintray_user : ''
 def bintrayApiKey = hasProperty('bintray_apikey') ? bintray_apikey : ''
 
 android
 {
-    compileSdkVersion 25
-    buildToolsVersion '26.0.0'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.1'
 
     dexOptions
     {
@@ -19,7 +19,7 @@ android
     defaultConfig
     {
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName releaseVersion
     }
@@ -93,7 +93,7 @@ artifacts {
 
 ext
 {
-    support = '25.4.0'
+    support = '27.0.0'
 }
 
 dependencies
@@ -104,7 +104,7 @@ dependencies
     compile "com.android.support:customtabs:$support"
 
     // gson
-    compile 'com.google.code.gson:gson:2.8.1'
+    compile 'com.google.code.gson:gson:2.8.2'
 
     // joda time
     compile 'joda-time:joda-time:2.9.9'
