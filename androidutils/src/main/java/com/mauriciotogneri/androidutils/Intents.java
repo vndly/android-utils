@@ -1,11 +1,13 @@
 package com.mauriciotogneri.androidutils;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.provider.MediaStore;
 import android.support.annotation.ColorRes;
 import android.support.customtabs.CustomTabsIntent;
@@ -69,6 +71,16 @@ public class Intents
                 fragment.startActivityForResult(intent, requestCode);
             }
         };
+    }
+
+    public boolean custom(Intent intent)
+    {
+        return startActivity(intent);
+    }
+
+    public boolean custom(Intent intent, int resultCode)
+    {
+        return startActivityForResult(target, intent, resultCode);
     }
 
     public boolean shareLink(String url)
@@ -136,6 +148,16 @@ public class Intents
         return startActivityForResult(target, intent, resultCode);
     }
 
+    @TargetApi(VERSION_CODES.KITKAT)
+    public boolean selectFromGallery(String[] types, int resultCode)
+    {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, types);
+
+        return startActivityForResult(target, intent, resultCode);
+    }
+
     public boolean openFile(Uri uri, String type)
     {
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -167,7 +189,7 @@ public class Intents
         return startActivity(intent);
     }
 
-    public boolean route(String address)
+    public boolean address(String address)
     {
         try
         {

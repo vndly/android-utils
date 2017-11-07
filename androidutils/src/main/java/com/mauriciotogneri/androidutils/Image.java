@@ -3,6 +3,7 @@ package com.mauriciotogneri.androidutils;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
@@ -13,6 +14,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.support.annotation.IdRes;
+
+import com.mauriciotogneri.javautils.Record;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -25,45 +28,12 @@ public class Image
 {
     private final Bitmap bitmap;
 
+    private static final CompressFormat DEFAULT_COMPRESS_FORMAT = CompressFormat.JPEG;
+    private static final int DEFAULT_QUALITY = 100;
+
     public Image(Bitmap bitmap)
     {
         this.bitmap = bitmap;
-    }
-
-    public boolean save(File file) throws IOException
-    {
-        if (file.createNewFile())
-        {
-            save(new FileOutputStream(file));
-
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    public boolean save(String path) throws IOException
-    {
-        return save(new File(path));
-    }
-
-    public boolean save(OutputStream outputStream)
-    {
-        return bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-    }
-
-    public Bitmap extract(Rect section)
-    {
-        Bitmap cutBitmap = Bitmap.createBitmap(section.width(), section.height(), Bitmap.Config.ARGB_8888);
-
-        int[] pixels = new int[section.width() * section.height()];
-
-        bitmap.getPixels(pixels, 0, section.width(), section.left, section.top, section.width(), section.height());
-        cutBitmap.setPixels(pixels, 0, section.width(), 0, 0, section.width(), section.height());
-
-        return cutBitmap;
     }
 
     public Bitmap bitmap()
@@ -71,7 +41,84 @@ public class Image
         return bitmap;
     }
 
-    public Bitmap grayscale()
+    public void recycle()
+    {
+        bitmap.recycle();
+    }
+
+    public boolean save(File file, CompressFormat compressFormat, int quality) throws IOException
+    {
+        return new Record(file).createFile() && write(new FileOutputStream(file), compressFormat, quality);
+    }
+
+    public boolean save(File file, CompressFormat compressFormat) throws IOException
+    {
+        return save(file, compressFormat, DEFAULT_QUALITY);
+    }
+
+    public boolean save(File file, int quality) throws IOException
+    {
+        return save(file, DEFAULT_COMPRESS_FORMAT, quality);
+    }
+
+    public boolean save(File file) throws IOException
+    {
+        return save(file, DEFAULT_COMPRESS_FORMAT, DEFAULT_QUALITY);
+    }
+
+    public boolean save(String path, CompressFormat compressFormat, int quality) throws IOException
+    {
+        return save(new File(path), compressFormat, quality);
+    }
+
+    public boolean save(String path, CompressFormat compressFormat) throws IOException
+    {
+        return save(path, compressFormat, DEFAULT_QUALITY);
+    }
+
+    public boolean save(String path, int quality) throws IOException
+    {
+        return save(path, DEFAULT_COMPRESS_FORMAT, quality);
+    }
+
+    public boolean save(String path) throws IOException
+    {
+        return save(path, DEFAULT_COMPRESS_FORMAT, DEFAULT_QUALITY);
+    }
+
+    public boolean write(OutputStream outputStream, CompressFormat compressFormat, int quality)
+    {
+        return bitmap.compress(compressFormat, quality, outputStream);
+    }
+
+    public boolean write(OutputStream outputStream, CompressFormat compressFormat)
+    {
+        return write(outputStream, compressFormat, DEFAULT_QUALITY);
+    }
+
+    public boolean write(OutputStream outputStream, int quality)
+    {
+        return write(outputStream, DEFAULT_COMPRESS_FORMAT, quality);
+    }
+
+    public boolean write(OutputStream outputStream)
+    {
+        return write(outputStream, DEFAULT_COMPRESS_FORMAT, DEFAULT_QUALITY);
+    }
+
+    public Image extract(Rect section)
+    {
+        Bitmap result = Bitmap.createBitmap(section.width(), section.height(), bitmap.getConfig());
+
+        int[] pixels = new int[section.width() * section.height()];
+
+        bitmap.getPixels(pixels, 0, section.width(), section.left, section.top, section.width(), section.height());
+        result.setPixels(pixels, 0, section.width(), 0, 0, section.width(), section.height());
+
+        return new Image(result);
+    }
+
+    public Image grayscale()
     {
         ColorMatrix colorMatrix = new ColorMatrix();
         colorMatrix.setSaturation(0);
@@ -79,29 +126,40 @@ public class Image
         Paint paint = new Paint();
         paint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
 
-        Bitmap grayScale = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap result = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
 
-        Canvas canvas = new Canvas(grayScale);
+        Canvas canvas = new Canvas(result);
         canvas.drawBitmap(bitmap, 0, 0, paint);
 
-        return grayScale;
+        return new Image(result);
     }
 
-    public byte[] byteArray()
+    public byte[] byteArray(CompressFormat compressFormat, int quality)
     {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        write(stream, compressFormat, quality);
 
         return stream.toByteArray();
     }
 
+    public byte[] byteArray(CompressFormat compressFormat)
+    {
+        return byteArray(compressFormat, DEFAULT_QUALITY);
+    }
+
+    public byte[] byteArray(int quality)
+    {
+        return byteArray(DEFAULT_COMPRESS_FORMAT, quality);
+    }
+
+    public byte[] byteArray()
+    {
+        return byteArray(DEFAULT_COMPRESS_FORMAT, DEFAULT_QUALITY);
+    }
+
     public Image resize(int width, int height)
     {
-        Bitmap result = Bitmap.createScaledBitmap(bitmap, width, height, false);
-
-        bitmap.recycle();
-
-        return new Image(result);
+        return new Image(Bitmap.createScaledBitmap(bitmap, width, height, false));
     }
 
     public Image rotate(float degrees)
@@ -109,16 +167,7 @@ public class Image
         Matrix matrix = new Matrix();
         matrix.setRotate(degrees);
 
-        Bitmap result = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, false);
-
-        bitmap.recycle();
-
-        return new Image(result);
-    }
-
-    public void recycle()
-    {
-        bitmap.recycle();
+        return new Image(Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, false));
     }
 
     // ============================================================================================
@@ -211,7 +260,7 @@ public class Image
 
     // ============================================================================================
 
-    private static Image from(BitmapDecoder decoder, int maxWidth, int maxHeight)
+    public static Image from(BitmapDecoder decoder, int maxWidth, int maxHeight)
     {
         // decode with inJustDecodeBounds=true to check dimensions
         BitmapFactory.Options options = new BitmapFactory.Options();
