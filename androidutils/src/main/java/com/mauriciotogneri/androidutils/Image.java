@@ -46,6 +46,16 @@ public class Image
         bitmap.recycle();
     }
 
+    public int width()
+    {
+        return bitmap.getWidth();
+    }
+
+    public int height()
+    {
+        return bitmap.getHeight();
+    }
+
     public boolean save(File file, CompressFormat compressFormat, int quality) throws IOException
     {
         return new Record(file).createFile() && write(new FileOutputStream(file), compressFormat, quality);
