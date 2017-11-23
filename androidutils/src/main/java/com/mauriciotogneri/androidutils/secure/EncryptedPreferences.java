@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.mauriciotogneri.androidutils.Encoding;
+import com.mauriciotogneri.javautils.Encoding;
 
 import java.util.HashMap;
 import java.util.HashSet;

@@ -1,6 +1,6 @@
 package com.mauriciotogneri.androidutils.secure;
 
-import com.mauriciotogneri.androidutils.Encoding;
+import com.mauriciotogneri.javautils.Encoding;
 import com.tozny.crypto.android.AesCbcWithIntegrity;
 import com.tozny.crypto.android.AesCbcWithIntegrity.CipherTextIvMac;
 import com.tozny.crypto.android.AesCbcWithIntegrity.SecretKeys;

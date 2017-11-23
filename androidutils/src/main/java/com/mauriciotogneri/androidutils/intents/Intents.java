@@ -12,7 +12,7 @@ import android.support.annotation.ColorRes;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
 
-import com.mauriciotogneri.androidutils.Encoding;
+import com.mauriciotogneri.javautils.Encoding;
 
 import java.util.ArrayList;
 

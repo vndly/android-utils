@@ -2,7 +2,7 @@ package com.mauriciotogneri.androidutils.mock;
 
 import android.text.TextUtils;
 
-import com.mauriciotogneri.androidutils.Encoding;
+import com.mauriciotogneri.javautils.Encoding;
 
 import java.io.BufferedReader;
 import java.io.IOException;
