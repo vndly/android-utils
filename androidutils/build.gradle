@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-def releaseVersion = '2.7.0'
+def releaseVersion = '2.8.0'
 def bintrayUser = hasProperty('bintray_user') ? bintray_user : ''
 def bintrayApiKey = hasProperty('bintray_apikey') ? bintray_apikey : ''
 
@@ -110,7 +110,7 @@ dependencies
     compile 'joda-time:joda-time:2.9.9'
 
     // java utils
-    compile 'com.mauriciotogneri:javautils:1.7.0'
+    compile 'com.mauriciotogneri:javautils:1.8.0'
 
     // event bus
     compile 'org.greenrobot:eventbus:3.0.0'
