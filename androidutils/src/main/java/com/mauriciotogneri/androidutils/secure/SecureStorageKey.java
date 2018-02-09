@@ -1,6 +1,6 @@
 package com.mauriciotogneri.androidutils.secure;
 
-import com.tozny.crypto.android.AesCbcWithIntegrity.SecretKeys;
+import com.mauriciotogneri.androidutils.secure.AesCbcWithIntegrity.SecretKeys;
 
 public class SecureStorageKey
 {

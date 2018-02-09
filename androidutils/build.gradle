@@ -2,14 +2,14 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-def releaseVersion = '2.8.0'
+def releaseVersion = '2.9.0'
 def bintrayUser = hasProperty('bintray_user') ? bintray_user : ''
 def bintrayApiKey = hasProperty('bintray_apikey') ? bintray_apikey : ''
 
 android
 {
     compileSdkVersion 27
-    buildToolsVersion '27.0.1'
+    buildToolsVersion '27.0.3'
 
     dexOptions
     {
@@ -19,7 +19,7 @@ android
     defaultConfig
     {
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName releaseVersion
     }
@@ -44,8 +44,8 @@ android
 
     compileOptions
     {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -93,28 +93,24 @@ artifacts {
 
 ext
 {
-    support = '27.0.1'
+    support = '27.0.2'
 }
 
 dependencies
 {
     // android
-    compile "com.android.support:appcompat-v7:$support"
-    compile "com.android.support:support-annotations:$support"
-    compile "com.android.support:customtabs:$support"
+    implementation "com.android.support:appcompat-v7:$support"
+    implementation "com.android.support:customtabs:$support"
 
     // gson
-    compile 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.google.code.gson:gson:2.8.2'
 
     // joda time
-    compile 'joda-time:joda-time:2.9.9'
+    implementation 'joda-time:joda-time:2.9.9'
 
     // java utils
-    compile 'com.mauriciotogneri:javautils:1.8.0'
+    implementation 'com.mauriciotogneri:javautils:1.8.0'
 
     // event bus
-    compile 'org.greenrobot:eventbus:3.0.0'
-
-    // aes crypto
-    compile 'com.scottyab:aes-crypto:0.0.4'
+    implementation 'org.greenrobot:eventbus:3.0.0'
 }

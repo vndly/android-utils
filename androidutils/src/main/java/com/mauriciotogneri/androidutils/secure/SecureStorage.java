@@ -2,8 +2,8 @@ package com.mauriciotogneri.androidutils.secure;
 
 import android.content.Context;
 
+import com.mauriciotogneri.androidutils.secure.AesCbcWithIntegrity.SecretKeys;
 import com.mauriciotogneri.javautils.Encoding;
-import com.tozny.crypto.android.AesCbcWithIntegrity.SecretKeys;
 
 import java.security.KeyPair;
 
