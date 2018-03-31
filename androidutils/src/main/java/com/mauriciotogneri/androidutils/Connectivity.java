@@ -1,5 +1,6 @@
 package com.mauriciotogneri.androidutils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -20,6 +21,7 @@ public class Connectivity
         this.connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
+    @SuppressLint("MissingPermission")
     private Status status()
     {
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();

@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
@@ -189,14 +188,7 @@ public class Image
 
     public static Image fromFile(final File file, int maxWidth, int maxHeight)
     {
-        return from(new BitmapDecoder()
-        {
-            @Override
-            public Bitmap decode(Options options)
-            {
-                return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-            }
-        }, maxWidth, maxHeight);
+        return from(options -> BitmapFactory.decodeFile(file.getAbsolutePath(), options), maxWidth, maxHeight);
     }
 
     // ============================================================================================
@@ -208,14 +200,7 @@ public class Image
 
     public static Image fromByteArray(final byte[] data, int maxWidth, int maxHeight)
     {
-        return from(new BitmapDecoder()
-        {
-            @Override
-            public Bitmap decode(Options options)
-            {
-                return BitmapFactory.decodeByteArray(data, 0, data.length, options);
-            }
-        }, maxWidth, maxHeight);
+        return from(options -> BitmapFactory.decodeByteArray(data, 0, data.length, options), maxWidth, maxHeight);
     }
 
     // ============================================================================================
@@ -227,14 +212,7 @@ public class Image
 
     public static Image fromResource(final Resources resources, final @IdRes int resourceId, int maxWidth, int maxHeight)
     {
-        return from(new BitmapDecoder()
-        {
-            @Override
-            public Bitmap decode(Options options)
-            {
-                return BitmapFactory.decodeResource(resources, resourceId, options);
-            }
-        }, maxWidth, maxHeight);
+        return from(options -> BitmapFactory.decodeResource(resources, resourceId, options), maxWidth, maxHeight);
     }
 
     // ============================================================================================
@@ -246,14 +224,7 @@ public class Image
 
     public static Image fromInputStream(final InputStream stream, int maxWidth, int maxHeight)
     {
-        return from(new BitmapDecoder()
-        {
-            @Override
-            public Bitmap decode(Options options)
-            {
-                return BitmapFactory.decodeStream(stream, null, options);
-            }
-        }, maxWidth, maxHeight);
+        return from(options -> BitmapFactory.decodeStream(stream, null, options), maxWidth, maxHeight);
     }
 
     // ============================================================================================

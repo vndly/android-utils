@@ -24,6 +24,11 @@
 
 package com.mauriciotogneri.androidutils.secure;
 
+import android.os.Build;
+import android.os.Process;
+import android.util.Base64;
+import android.util.Log;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -52,11 +57,6 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
-
-import android.os.Build;
-import android.os.Process;
-import android.util.Base64;
-import android.util.Log;
 
 /**
  * Simple library for the "right" defaults for AES key generation, encryption,
@@ -237,7 +237,7 @@ public class AesCbcWithIntegrity
         return randomBytes(IV_LENGTH_BYTES);
     }
 
-    private static byte[] randomBytes(int length) throws GeneralSecurityException
+    private static byte[] randomBytes(int length)
     {
         fixPrng();
         SecureRandom random = new SecureRandom();
@@ -504,11 +504,7 @@ public class AesCbcWithIntegrity
             {
                 return false;
             }
-            if (!confidentialityKey.equals(other.confidentialityKey))
-            {
-                return false;
-            }
-            return true;
+            return confidentialityKey.equals(other.confidentialityKey);
         }
     }
 
@@ -626,7 +622,7 @@ public class AesCbcWithIntegrity
             String ivString = Base64.encodeToString(iv, BASE64_FLAGS);
             String cipherTextString = Base64.encodeToString(cipherText, BASE64_FLAGS);
             String macString = Base64.encodeToString(mac, BASE64_FLAGS);
-            return String.format(ivString + ":" + macString + ":" + cipherTextString);
+            return ivString + ":" + macString + ":" + cipherTextString;
         }
 
         @Override
@@ -664,11 +660,7 @@ public class AesCbcWithIntegrity
             {
                 return false;
             }
-            if (!Arrays.equals(mac, other.mac))
-            {
-                return false;
-            }
-            return true;
+            return Arrays.equals(mac, other.mac);
         }
     }
 
@@ -855,7 +847,6 @@ public class AesCbcWithIntegrity
                         Log.w(PrngFixes.class.getSimpleName(),
                                 "SecureRandom.getInstance(\"SHA1PRNG\") backed by wrong" + " Provider: "
                                         + rng2.getProvider().getClass());
-                        return;
                     }
                     else
                     {

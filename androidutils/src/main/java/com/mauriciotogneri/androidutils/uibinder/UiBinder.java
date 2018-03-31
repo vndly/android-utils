@@ -5,14 +5,9 @@ import android.app.Dialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 
 import com.mauriciotogneri.androidutils.uibinder.annotations.BindView;
@@ -116,14 +111,7 @@ public class UiBinder
             checkInvalidMethod(method);
 
             View view = uiContainer.findViewById(onClick.value());
-            view.setOnClickListener(new OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-                    callableMethod.call();
-                }
-            });
+            view.setOnClickListener(callableMethod::call);
         }
     }
 
@@ -136,15 +124,10 @@ public class UiBinder
             checkInvalidMethod(method);
 
             View view = uiContainer.findViewById(onLongClick.value());
-            view.setOnLongClickListener(new OnLongClickListener()
-            {
-                @Override
-                public boolean onLongClick(View view)
-                {
-                    callableMethod.call();
+            view.setOnLongClickListener(view1 -> {
+                callableMethod.call();
 
-                    return true;
-                }
+                return true;
             });
         }
     }
@@ -158,14 +141,7 @@ public class UiBinder
             checkInvalidMethod(method);
 
             CompoundButton view = (CompoundButton) uiContainer.findViewById(onCheckedChanged.value());
-            view.setOnCheckedChangeListener(new OnCheckedChangeListener()
-            {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean changed)
-                {
-                    callableMethod.call(changed);
-                }
-            });
+            view.setOnCheckedChangeListener((compoundButton, changed) -> callableMethod.call(changed));
         }
     }
 
@@ -208,14 +184,7 @@ public class UiBinder
             checkInvalidMethod(method);
 
             AdapterView<?> view = (AdapterView<?>) uiContainer.findViewById(onItemClick.value());
-            view.setOnItemClickListener(new OnItemClickListener()
-            {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-                {
-                    callableMethod.call(parent.getItemAtPosition(position));
-                }
-            });
+            view.setOnItemClickListener((parent, view1, position, id) -> callableMethod.call(parent.getItemAtPosition(position)));
         }
     }
 
@@ -228,15 +197,10 @@ public class UiBinder
             checkInvalidMethod(method);
 
             AdapterView<?> view = (AdapterView<?>) uiContainer.findViewById(onItemLongClick.value());
-            view.setOnItemLongClickListener(new OnItemLongClickListener()
-            {
-                @Override
-                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
-                {
-                    callableMethod.call(parent.getItemAtPosition(position));
+            view.setOnItemLongClickListener((parent, view1, position, id) -> {
+                callableMethod.call(parent.getItemAtPosition(position));
 
-                    return true;
-                }
+                return true;
             });
         }
     }

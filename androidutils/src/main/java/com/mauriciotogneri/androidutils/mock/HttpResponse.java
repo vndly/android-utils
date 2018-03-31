@@ -61,7 +61,7 @@ public class HttpResponse
     public static class Builder
     {
         private final HttpResponseCode code;
-        private List<String> headers;
+        private final List<String> headers;
         private String body;
 
         public Builder(HttpResponseCode code)

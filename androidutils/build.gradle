@@ -93,7 +93,7 @@ artifacts {
 
 ext
 {
-    support = '27.0.2'
+    support = '27.1.0'
 }
 
 dependencies
