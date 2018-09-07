@@ -172,7 +172,7 @@ public class AesCbcWithIntegrity
         fixPrng();
         //Get enough random bytes for both the AES key and the HMAC key:
         KeySpec keySpec = new PBEKeySpec(password.toCharArray(), salt,
-                PBE_ITERATION_COUNT, AES_KEY_LENGTH_BITS + HMAC_KEY_LENGTH_BITS);
+                                         PBE_ITERATION_COUNT, AES_KEY_LENGTH_BITS + HMAC_KEY_LENGTH_BITS);
         SecretKeyFactory keyFactory = SecretKeyFactory
                 .getInstance(PBE_ALGORITHM);
         byte[] keyBytes = keyFactory.generateSecret(keySpec).getEncoded();
@@ -388,7 +388,7 @@ public class AesCbcWithIntegrity
         {
             Cipher aesCipherForDecryption = Cipher.getInstance(CIPHER_TRANSFORMATION);
             aesCipherForDecryption.init(Cipher.DECRYPT_MODE, secretKeys.getConfidentialityKey(),
-                    new IvParameterSpec(civ.getIv()));
+                                        new IvParameterSpec(civ.getIv()));
             return aesCipherForDecryption.doFinal(civ.getCipherText());
         }
         else
@@ -754,7 +754,7 @@ public class AesCbcWithIntegrity
                 if (bytesRead != 1024)
                 {
                     throw new IOException("Unexpected number of bytes read from Linux PRNG: "
-                            + bytesRead);
+                                                  + bytesRead);
                 }
             }
             catch (Exception e)
@@ -813,13 +813,13 @@ public class AesCbcWithIntegrity
                     if (ALLOW_BROKEN_PRNG)
                     {
                         Log.w(PrngFixes.class.getSimpleName(),
-                                "new SecureRandom() backed by wrong Provider: " + rng1.getProvider().getClass());
+                              "new SecureRandom() backed by wrong Provider: " + rng1.getProvider().getClass());
                         return;
                     }
                     else
                     {
                         throw new SecurityException("new SecureRandom() backed by wrong Provider: "
-                                + rng1.getProvider().getClass());
+                                                            + rng1.getProvider().getClass());
                     }
                 }
 
@@ -845,8 +845,8 @@ public class AesCbcWithIntegrity
                     if (ALLOW_BROKEN_PRNG)
                     {
                         Log.w(PrngFixes.class.getSimpleName(),
-                                "SecureRandom.getInstance(\"SHA1PRNG\") backed by wrong" + " Provider: "
-                                        + rng2.getProvider().getClass());
+                              "SecureRandom.getInstance(\"SHA1PRNG\") backed by wrong" + " Provider: "
+                                      + rng2.getProvider().getClass());
                     }
                     else
                     {
@@ -1002,7 +1002,7 @@ public class AesCbcWithIntegrity
                         catch (IOException e)
                         {
                             throw new SecurityException("Failed to open " + URANDOM_FILE
-                                    + " for reading", e);
+                                                                + " for reading", e);
                         }
                     }
                     return sUrandomIn;

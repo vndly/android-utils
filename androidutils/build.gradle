@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-def releaseVersion = '2.9.0'
+def releaseVersion = '2.9.1'
 def bintrayUser = hasProperty('bintray_user') ? bintray_user : ''
 def bintrayApiKey = hasProperty('bintray_apikey') ? bintray_apikey : ''
 
@@ -22,24 +22,6 @@ android
         targetSdkVersion 27
         versionCode 1
         versionName releaseVersion
-    }
-
-    buildTypes
-    {
-        debug
-        {
-            debuggable true
-        }
-
-        release
-        {
-            minifyEnabled false
-        }
-    }
-
-    lintOptions
-    {
-        abortOnError false
     }
 
     compileOptions
@@ -93,7 +75,7 @@ artifacts {
 
 ext
 {
-    support = '27.1.0'
+    support = '27.1.1'
 }
 
 dependencies
@@ -103,14 +85,14 @@ dependencies
     implementation "com.android.support:customtabs:$support"
 
     // gson
-    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.google.code.gson:gson:2.8.5'
 
     // joda time
-    implementation 'joda-time:joda-time:2.9.9'
+    implementation 'joda-time:joda-time:2.10'
 
     // java utils
     implementation 'com.mauriciotogneri:javautils:1.8.0'
 
     // event bus
-    implementation 'org.greenrobot:eventbus:3.0.0'
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }
