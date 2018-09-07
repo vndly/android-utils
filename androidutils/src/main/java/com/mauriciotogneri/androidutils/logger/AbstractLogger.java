@@ -1,4 +1,4 @@
-package com.mauriciotogneri.androidutils;
+package com.mauriciotogneri.androidutils.logger;
 
 import android.util.Log;
 
