@@ -111,7 +111,7 @@ public class UiBinder
             checkInvalidMethod(method);
 
             View view = uiContainer.findViewById(onClick.value());
-            view.setOnClickListener(callableMethod::call);
+            view.setOnClickListener(v -> callableMethod.call());
         }
     }
 
@@ -124,7 +124,7 @@ public class UiBinder
             checkInvalidMethod(method);
 
             View view = uiContainer.findViewById(onLongClick.value());
-            view.setOnLongClickListener(view1 -> {
+            view.setOnLongClickListener(v -> {
                 callableMethod.call();
 
                 return true;

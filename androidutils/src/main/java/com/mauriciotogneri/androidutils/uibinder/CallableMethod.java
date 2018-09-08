@@ -21,7 +21,7 @@ class CallableMethod
         }
         catch (Exception e)
         {
-            throw new RuntimeException(String.format("Error invoking method '%s'", method.getName()), e.getCause());
+            throw new RuntimeException(String.format("Error invoking method '%s'. %s", method.getName(), e.getMessage()), e.getCause());
         }
     }
 }
