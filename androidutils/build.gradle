@@ -84,14 +84,14 @@ dependencies
     implementation "com.android.support:appcompat-v7:$support"
     implementation "com.android.support:customtabs:$support"
 
+    // java utils
+    implementation 'com.mauriciotogneri:javautils:2.9.1'
+
     // gson
     implementation 'com.google.code.gson:gson:2.8.5'
 
     // joda time
     implementation 'joda-time:joda-time:2.10'
-
-    // java utils
-    implementation 'com.mauriciotogneri:javautils:1.8.0'
 
     // event bus
     implementation 'org.greenrobot:eventbus:3.1.1'
