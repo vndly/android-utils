@@ -18,7 +18,7 @@ public class Permissions
     private final Object target;
     private final PermissionRequest permissionRequest;
 
-    public Permissions(Object target, final Activity activity)
+    public Permissions(Object target, Activity activity)
     {
         this.target = target;
         this.permissionRequest = new PermissionRequest()
@@ -37,7 +37,7 @@ public class Permissions
         };
     }
 
-    public Permissions(Object target, final Fragment fragment)
+    public Permissions(Object target, Fragment fragment)
     {
         this.target = target;
         this.permissionRequest = new PermissionRequest()

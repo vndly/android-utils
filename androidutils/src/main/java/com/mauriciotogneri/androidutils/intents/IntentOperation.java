@@ -26,7 +26,7 @@ public class IntentOperation
         return new IntentOperation(intent, requestCode);
     }
 
-    public boolean send(final Activity activity)
+    public boolean send(Activity activity)
     {
         return send(new IntentTarget()
         {
@@ -50,7 +50,7 @@ public class IntentOperation
         });
     }
 
-    public boolean send(final Fragment fragment)
+    public boolean send(Fragment fragment)
     {
         return send(new IntentTarget()
         {

@@ -186,7 +186,7 @@ public class Image
         return new Image(BitmapFactory.decodeFile(file.getAbsolutePath()));
     }
 
-    public static Image fromFile(final File file, int maxWidth, int maxHeight)
+    public static Image fromFile(File file, int maxWidth, int maxHeight)
     {
         return from(options -> BitmapFactory.decodeFile(file.getAbsolutePath(), options), maxWidth, maxHeight);
     }
@@ -198,7 +198,7 @@ public class Image
         return new Image(BitmapFactory.decodeByteArray(data, 0, data.length));
     }
 
-    public static Image fromByteArray(final byte[] data, int maxWidth, int maxHeight)
+    public static Image fromByteArray(byte[] data, int maxWidth, int maxHeight)
     {
         return from(options -> BitmapFactory.decodeByteArray(data, 0, data.length, options), maxWidth, maxHeight);
     }
@@ -210,7 +210,7 @@ public class Image
         return new Image(BitmapFactory.decodeResource(resources, resourceId));
     }
 
-    public static Image fromResource(final Resources resources, final @IdRes int resourceId, int maxWidth, int maxHeight)
+    public static Image fromResource(Resources resources, @IdRes int resourceId, int maxWidth, int maxHeight)
     {
         return from(options -> BitmapFactory.decodeResource(resources, resourceId, options), maxWidth, maxHeight);
     }
@@ -222,7 +222,7 @@ public class Image
         return new Image(BitmapFactory.decodeStream(stream));
     }
 
-    public static Image fromInputStream(final InputStream stream, int maxWidth, int maxHeight)
+    public static Image fromInputStream(InputStream stream, int maxWidth, int maxHeight)
     {
         return from(options -> BitmapFactory.decodeStream(stream, null, options), maxWidth, maxHeight);
     }

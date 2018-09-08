@@ -59,7 +59,7 @@ public class UiBinder
         bindMethods(uiContainer, target);
     }
 
-    private void bindFields(UiContainer uiContainer, final Object target)
+    private void bindFields(UiContainer uiContainer, Object target)
     {
         for (Field field : target.getClass().getFields())
         {
@@ -88,7 +88,7 @@ public class UiBinder
 
     private void bindMethods(UiContainer uiContainer, Object target)
     {
-        for (final Method method : target.getClass().getMethods())
+        for (Method method : target.getClass().getMethods())
         {
             CallableMethod callableMethod = new CallableMethod(method, target);
 
@@ -102,7 +102,7 @@ public class UiBinder
         }
     }
 
-    private void bindOnClick(UiContainer uiContainer, final Method method, final CallableMethod callableMethod)
+    private void bindOnClick(UiContainer uiContainer, Method method, CallableMethod callableMethod)
     {
         OnClick onClick = method.getAnnotation(OnClick.class);
 
@@ -115,7 +115,7 @@ public class UiBinder
         }
     }
 
-    private void bindOnLongClick(UiContainer uiContainer, final Method method, final CallableMethod callableMethod)
+    private void bindOnLongClick(UiContainer uiContainer, Method method, CallableMethod callableMethod)
     {
         OnLongClick onLongClick = method.getAnnotation(OnLongClick.class);
 
@@ -132,7 +132,7 @@ public class UiBinder
         }
     }
 
-    private void bindOnCheckedChanged(UiContainer uiContainer, final Method method, final CallableMethod callableMethod)
+    private void bindOnCheckedChanged(UiContainer uiContainer, Method method, CallableMethod callableMethod)
     {
         OnCheckedChanged onCheckedChanged = method.getAnnotation(OnCheckedChanged.class);
 
@@ -145,7 +145,7 @@ public class UiBinder
         }
     }
 
-    private void bindOnTextChanged(UiContainer uiContainer, final Method method, final CallableMethod callableMethod)
+    private void bindOnTextChanged(UiContainer uiContainer, Method method, CallableMethod callableMethod)
     {
         OnTextChanged onTextChanged = method.getAnnotation(OnTextChanged.class);
 
@@ -175,7 +175,7 @@ public class UiBinder
         }
     }
 
-    private void bindOnItemClick(UiContainer uiContainer, final Method method, final CallableMethod callableMethod)
+    private void bindOnItemClick(UiContainer uiContainer, Method method, CallableMethod callableMethod)
     {
         OnItemClick onItemClick = method.getAnnotation(OnItemClick.class);
 
@@ -188,7 +188,7 @@ public class UiBinder
         }
     }
 
-    private void bindOnItemLongClick(UiContainer uiContainer, final Method method, final CallableMethod callableMethod)
+    private void bindOnItemLongClick(UiContainer uiContainer, Method method, CallableMethod callableMethod)
     {
         OnItemLongClick onItemLongClick = method.getAnnotation(OnItemLongClick.class);
 
@@ -205,7 +205,7 @@ public class UiBinder
         }
     }
 
-    private void bindOnItemSelectedClick(UiContainer uiContainer, final Method method, final CallableMethod callableMethod)
+    private void bindOnItemSelectedClick(UiContainer uiContainer, Method method, CallableMethod callableMethod)
     {
         OnItemSelected onItemSelected = method.getAnnotation(OnItemSelected.class);
 
