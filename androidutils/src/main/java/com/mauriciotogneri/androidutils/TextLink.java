@@ -5,7 +5,9 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
+import android.text.style.CharacterStyle;
 import android.text.style.ClickableSpan;
+import android.text.style.UpdateAppearance;
 import android.view.View;
 import android.widget.TextView;
 
@@ -44,14 +46,7 @@ public class TextLink
         {
             TextSection textSection = sections.get(i);
 
-            String pattern = textSection.pattern;
-            LinkClickCallback callback = textSection.callback;
-            Integer color = textSection.color;
-            Integer size = textSection.size;
-            Boolean bold = textSection.bold;
-            Boolean underline = textSection.underline;
-
-            Matcher matcher = Pattern.compile(pattern).matcher(text);
+            Matcher matcher = Pattern.compile(textSection.pattern).matcher(text);
 
             if (matcher.find())
             {
@@ -62,48 +57,89 @@ public class TextLink
 
                 extra += (stringMatched.length() - link.length());
 
-                ClickableSpan clickableSpan = new ClickableSpan()
+                CharacterStyle span;
+
+                if (textSection.callback != null)
                 {
-                    @Override
-                    public void onClick(View textView)
-                    {
-                        if (callback != null)
-                        {
-                            callback.onClick(link);
-                        }
-                    }
+                    span = clickableSpan(textSection, link);
+                }
+                else
+                {
+                    span = normalSpan(textSection);
+                }
 
-                    @Override
-                    public void updateDrawState(TextPaint textPaint)
-                    {
-                        if (color != null)
-                        {
-                            textPaint.setColor(color);
-                        }
-
-                        if (bold != null)
-                        {
-                            textPaint.setFakeBoldText(bold);
-                        }
-
-                        if (underline != null)
-                        {
-                            textPaint.setUnderlineText(underline);
-                        }
-
-                        if (size != null)
-                        {
-                            textPaint.setTextSize(size);
-                        }
-                    }
-                };
-
-                spannable.setSpan(clickableSpan, startIndex, startIndex + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannable.setSpan(span, startIndex, startIndex + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
         }
 
         target.setMovementMethod(LinkMovementMethod.getInstance());
         target.setText(spannable);
+    }
+
+    private CharacterStyle normalSpan(TextSection textSection)
+    {
+        return new NormalSpan()
+        {
+            @Override
+            public void updateDrawState(TextPaint textPaint)
+            {
+                if (textSection.color != null)
+                {
+                    textPaint.setColor(textSection.color);
+                }
+
+                if (textSection.bold != null)
+                {
+                    textPaint.setFakeBoldText(textSection.bold);
+                }
+
+                if (textSection.underline != null)
+                {
+                    textPaint.setUnderlineText(textSection.underline);
+                }
+
+                if (textSection.size != null)
+                {
+                    textPaint.setTextSize(textSection.size);
+                }
+            }
+        };
+    }
+
+    private CharacterStyle clickableSpan(TextSection textSection, String link)
+    {
+        return new ClickableSpan()
+        {
+            @Override
+            public void onClick(View textView)
+            {
+                textSection.callback.onClick(link);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint textPaint)
+            {
+                if (textSection.color != null)
+                {
+                    textPaint.setColor(textSection.color);
+                }
+
+                if (textSection.bold != null)
+                {
+                    textPaint.setFakeBoldText(textSection.bold);
+                }
+
+                if (textSection.underline != null)
+                {
+                    textPaint.setUnderlineText(textSection.underline);
+                }
+
+                if (textSection.size != null)
+                {
+                    textPaint.setTextSize(textSection.size);
+                }
+            }
+        };
     }
 
     private String finalText()
@@ -140,39 +176,52 @@ public class TextLink
         private final Boolean bold;
         private final Boolean underline;
 
-        public TextSection(String pattern, LinkClickCallback callback, @ColorInt Integer color, Integer size, Boolean bold, Boolean underline)
+        public TextSection(String pattern, @ColorInt Integer color, Integer size, Boolean bold, Boolean underline, LinkClickCallback callback)
         {
             this.pattern = pattern;
-            this.callback = callback;
             this.color = color;
             this.size = size;
             this.bold = bold;
             this.underline = underline;
+            this.callback = callback;
         }
 
-        public TextSection(String pattern, LinkClickCallback callback)
+        public TextSection(String pattern)
         {
-            this(pattern, callback, null, null, null, null);
+            this(pattern, null, null, null, null, null);
+        }
+
+        public TextSection callback(LinkClickCallback callback)
+        {
+            return new TextSection(pattern, color, size, bold, underline, callback);
         }
 
         public TextSection color(@ColorInt int color)
         {
-            return new TextSection(pattern, callback, color, size, bold, underline);
+            return new TextSection(pattern, color, size, bold, underline, callback);
         }
 
         public TextSection size(int size)
         {
-            return new TextSection(pattern, callback, color, size, bold, underline);
+            return new TextSection(pattern, color, size, bold, underline, callback);
         }
 
         public TextSection bold(boolean bold)
         {
-            return new TextSection(pattern, callback, color, size, bold, underline);
+            return new TextSection(pattern, color, size, bold, underline, callback);
         }
 
         public TextSection underline(boolean underline)
         {
-            return new TextSection(pattern, callback, color, size, bold, underline);
+            return new TextSection(pattern, color, size, bold, underline, callback);
+        }
+    }
+
+    public static class NormalSpan extends CharacterStyle implements UpdateAppearance
+    {
+        @Override
+        public void updateDrawState(TextPaint ds)
+        {
         }
     }
 }
