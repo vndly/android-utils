@@ -10,7 +10,6 @@ import android.graphics.Typeface;
 import android.support.annotation.DimenRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -41,16 +40,23 @@ public abstract class Fonts
         return Typeface.createFromAsset(context.getAssets(), String.format("fonts/%s", fileName));
     }
 
-    protected void loadFont(String key, Typeface typeface, @DimenRes int sizeId)
+    protected void loadFont(String key, Typeface typeface, int unit, @DimenRes int sizeId)
     {
-        FontType fontType = new FontType(typeface, context.getResources().getDimension(sizeId));
+        FontType fontType = new FontType(typeface, unit, context.getResources().getDimension(sizeId));
 
         fonts.put(key, fontType);
     }
 
-    protected void loadFont(String key, Typeface typeface, float size)
+    protected void loadFont(String key, Typeface typeface, int unit, float size)
     {
-        FontType fontType = new FontType(typeface, size);
+        FontType fontType = new FontType(typeface, unit, size);
+
+        fonts.put(key, fontType);
+    }
+
+    protected void loadFont(String key, Typeface typeface)
+    {
+        FontType fontType = new FontType(typeface);
 
         fonts.put(key, fontType);
     }
@@ -86,7 +92,11 @@ public abstract class Fonts
     private void apply(TextView textView, FontType fontType)
     {
         textView.setTypeface(fontType.typeface);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontType.size);
+
+        if (fontType.hasSize())
+        {
+            textView.setTextSize(fontType.unit, fontType.size);
+        }
     }
 
     private FontType font(String name)
@@ -99,12 +109,24 @@ public abstract class Fonts
     public static class FontType
     {
         private final Typeface typeface;
-        private final float size;
+        private final Integer unit;
+        private final Float size;
 
-        private FontType(Typeface typeface, float size)
+        private FontType(Typeface typeface, Integer unit, Float size)
         {
             this.typeface = typeface;
+            this.unit = unit;
             this.size = size;
+        }
+
+        private FontType(Typeface typeface)
+        {
+            this(typeface, null, null);
+        }
+
+        public boolean hasSize()
+        {
+            return (unit != null) && (size != null);
         }
     }
 }
