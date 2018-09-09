@@ -1,7 +1,3 @@
-/*
- * (c) Copyright Banque Pictet & Cie SA
- */
-
 package com.mauriciotogneri.androidutils;
 
 import android.content.Context;

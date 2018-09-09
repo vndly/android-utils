@@ -9,6 +9,8 @@ import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,114 +18,161 @@ public class TextLink
 {
     private final TextView target;
     private final String text;
-    private final String pattern;
-    private final Integer color;
-    private final Boolean underline;
-    private final Boolean bold;
-    private final Integer size;
-    private final LinkClickCallback callback;
+    private final List<String> patterns;
+    private final List<TextSection> sections;
 
-    private TextLink(TextView target, String text, String pattern, Integer color, Boolean underline, Boolean bold, Integer size, LinkClickCallback callback)
+    public TextLink(TextView target, String text)
     {
         this.target = target;
         this.text = text;
-        this.pattern = pattern;
-        this.color = color;
-        this.underline = underline;
-        this.bold = bold;
-        this.size = size;
-        this.callback = callback;
+        this.patterns = new ArrayList<>();
+        this.sections = new ArrayList<>();
     }
 
-    public TextLink(TextView target, String text, String pattern)
+    public void add(TextSection textSection)
     {
-        this(target, text, pattern, null, null, null, null, null);
-    }
-
-    public TextLink color(@ColorInt int color)
-    {
-        return new TextLink(target, text, pattern, color, underline, bold, size, callback);
-    }
-
-    public TextLink underline(Boolean underline)
-    {
-        return new TextLink(target, text, pattern, color, underline, bold, size, callback);
-    }
-
-    public TextLink bold(Boolean bold)
-    {
-        return new TextLink(target, text, pattern, color, underline, bold, size, callback);
-    }
-
-    public TextLink size(Integer size)
-    {
-        return new TextLink(target, text, pattern, color, underline, bold, size, callback);
-    }
-
-    public TextLink callback(LinkClickCallback callback)
-    {
-        return new TextLink(target, text, pattern, color, underline, bold, size, callback);
+        this.patterns.add(textSection.pattern);
+        this.sections.add(textSection);
     }
 
     public void format()
     {
-        Matcher matcher = Pattern.compile(pattern).matcher(text);
+        int extra = 0;
+        SpannableString spannable = new SpannableString(finalText());
 
-        if (matcher.find())
+        for (int i = 0; i < sections.size(); i++)
         {
-            int startIndex = matcher.start();
+            TextSection textSection = sections.get(i);
 
-            String stringMatched = matcher.group();
-            final String link = stringMatched.substring(1, stringMatched.length() - 1);
+            String pattern = textSection.pattern;
+            LinkClickCallback callback = textSection.callback;
+            Integer color = textSection.color;
+            Integer size = textSection.size;
+            Boolean bold = textSection.bold;
+            Boolean underline = textSection.underline;
 
-            String finalText = matcher.replaceFirst(link);
+            Matcher matcher = Pattern.compile(pattern).matcher(text);
 
-            ClickableSpan clickableSpan = new ClickableSpan()
+            if (matcher.find())
             {
-                @Override
-                public void onClick(View textView)
+                int startIndex = matcher.start() - extra;
+
+                String stringMatched = matcher.group();
+                String link = stringMatched.substring(1, stringMatched.length() - 1);
+
+                extra += (stringMatched.length() - link.length());
+
+                ClickableSpan clickableSpan = new ClickableSpan()
                 {
-                    if (callback != null)
+                    @Override
+                    public void onClick(View textView)
                     {
-                        callback.onClick(link);
-                    }
-                }
-
-                @Override
-                public void updateDrawState(TextPaint textPaint)
-                {
-                    if (color != null)
-                    {
-                        textPaint.setColor(color);
+                        if (callback != null)
+                        {
+                            callback.onClick(link);
+                        }
                     }
 
-                    if (underline != null)
+                    @Override
+                    public void updateDrawState(TextPaint textPaint)
                     {
-                        textPaint.setUnderlineText(underline);
+                        if (color != null)
+                        {
+                            textPaint.setColor(color);
+                        }
+
+                        if (bold != null)
+                        {
+                            textPaint.setFakeBoldText(bold);
+                        }
+
+                        if (underline != null)
+                        {
+                            textPaint.setUnderlineText(underline);
+                        }
+
+                        if (size != null)
+                        {
+                            textPaint.setTextSize(size);
+                        }
                     }
+                };
 
-                    if (bold != null)
-                    {
-                        textPaint.setFakeBoldText(bold);
-                    }
-
-                    if (size != null)
-                    {
-                        textPaint.setTextSize(size);
-                    }
-                }
-            };
-
-            SpannableString spannable = new SpannableString(finalText);
-            spannable.setSpan(clickableSpan, startIndex, startIndex + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-            target.setMovementMethod(LinkMovementMethod.getInstance());
-            target.setText(spannable);
+                spannable.setSpan(clickableSpan, startIndex, startIndex + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
         }
+
+        target.setMovementMethod(LinkMovementMethod.getInstance());
+        target.setText(spannable);
+    }
+
+    private String finalText()
+    {
+        String result = text;
+
+        for (String pattern : patterns)
+        {
+            Matcher matcher = Pattern.compile(pattern).matcher(text);
+
+            if (matcher.find())
+            {
+                String stringMatched = matcher.group();
+                String link = stringMatched.substring(1, stringMatched.length() - 1);
+
+                result = result.replace(stringMatched, link);
+            }
+        }
+
+        return result;
     }
 
     public interface LinkClickCallback
     {
         void onClick(String text);
+    }
+
+    public static class TextSection
+    {
+        private final String pattern;
+        private final LinkClickCallback callback;
+        private final Integer color;
+        private final Integer size;
+        private final Boolean bold;
+        private final Boolean underline;
+
+        public TextSection(String pattern, LinkClickCallback callback, @ColorInt Integer color, Integer size, Boolean bold, Boolean underline)
+        {
+            this.pattern = pattern;
+            this.callback = callback;
+            this.color = color;
+            this.size = size;
+            this.bold = bold;
+            this.underline = underline;
+        }
+
+        public TextSection(String pattern, LinkClickCallback callback)
+        {
+            this(pattern, callback, null, null, null, null);
+        }
+
+        public TextSection color(@ColorInt int color)
+        {
+            return new TextSection(pattern, callback, color, size, bold, underline);
+        }
+
+        public TextSection size(int size)
+        {
+            return new TextSection(pattern, callback, color, size, bold, underline);
+        }
+
+        public TextSection bold(boolean bold)
+        {
+            return new TextSection(pattern, callback, color, size, bold, underline);
+        }
+
+        public TextSection underline(boolean underline)
+        {
+            return new TextSection(pattern, callback, color, size, bold, underline);
+        }
     }
 }
