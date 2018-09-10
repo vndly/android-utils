@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-def releaseVersion = '2.9.8'
+def releaseVersion = '3.0.0'
 def bintrayUser = hasProperty('bintray_user') ? bintray_user : ''
 def bintrayApiKey = hasProperty('bintray_apikey') ? bintray_apikey : ''
 
@@ -86,7 +86,7 @@ dependencies
     implementation "com.android.support:recyclerview-v7:$support"
 
     // java utils
-    implementation 'com.mauriciotogneri:javautils:2.9.1'
+    implementation 'com.mauriciotogneri:javautils:3.0.0'
 
     // gson
     implementation 'com.google.code.gson:gson:2.8.5'

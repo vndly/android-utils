@@ -8,5 +8,5 @@ A collection of utility classes for Android.
 Add the following dependency to your `build.gradle` file:
 
 ```groovy
-compile 'com.mauriciotogneri:androidutils:2.9.8'
+compile 'com.mauriciotogneri:androidutils:3.0.0'
 ```
