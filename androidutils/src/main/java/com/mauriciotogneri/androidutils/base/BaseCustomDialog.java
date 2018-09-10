@@ -32,14 +32,17 @@ public abstract class BaseCustomDialog<V extends BaseView, C> extends BaseDefaul
 
     protected abstract void initialize();
 
+    protected abstract int style();
+
     @NonNull
     @Override
+    @SuppressWarnings("ConstantConditions")
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-        View layout = view.inflate(LayoutInflater.from(getActivity()), null);
+        View layout = view.inflate(LayoutInflater.from(getContext()), null);
         initialize();
 
-        Dialog dialog = new Dialog(getContext(), android.R.style.Theme_DeviceDefault_Light_Dialog);
+        Dialog dialog = new Dialog(getContext(), style());
         dialog.setContentView(layout);
         dialog.setCancelable(isDialogCancelable());
         dialog.setCanceledOnTouchOutside(isDialogCancelable());
