@@ -3,6 +3,8 @@ package com.mauriciotogneri.androidutils.base;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mauriciotogneri.androidutils.FragmentParameters;
+import com.mauriciotogneri.androidutils.permissions.Permissions;
 import com.mauriciotogneri.androidutils.permissions.PermissionsResult;
 
 public abstract class BaseFragment<V extends BaseView, T extends BaseToolbarView, P extends BaseParameters> extends Fragment implements DialogDisplayer
@@ -18,10 +21,10 @@ public abstract class BaseFragment<V extends BaseView, T extends BaseToolbarView
     protected V view;
     protected T toolbar;
     protected P parameters;
-    private BaseActivity<?, ?, ?> activity;
+    protected BaseActivity<?, ?, ?> activity;
 
     @Override
-    public final View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         loadParameters();
 
@@ -33,7 +36,7 @@ public abstract class BaseFragment<V extends BaseView, T extends BaseToolbarView
     }
 
     @Override
-    public final void onActivityCreated(Bundle savedInstanceState)
+    public void onActivityCreated(Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
 
@@ -112,6 +115,11 @@ public abstract class BaseFragment<V extends BaseView, T extends BaseToolbarView
         this.activity = (BaseActivity) activity;
     }
 
+    protected Permissions permissions()
+    {
+        return new Permissions(this, this);
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults)
     {
@@ -119,6 +127,12 @@ public abstract class BaseFragment<V extends BaseView, T extends BaseToolbarView
 
         PermissionsResult permissionsResult = new PermissionsResult(this);
         permissionsResult.process(requestCode, permissions, grantResults);
+    }
+
+    protected void post(Runnable runnable)
+    {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(runnable);
     }
 
     @SuppressWarnings("unchecked")

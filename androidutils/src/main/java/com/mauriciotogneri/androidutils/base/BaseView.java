@@ -1,6 +1,8 @@
 package com.mauriciotogneri.androidutils.base;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.ColorRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.mauriciotogneri.androidutils.Keyboard;
 import com.mauriciotogneri.androidutils.uibinder.UiBinder;
 
 public abstract class BaseView<O, C>
@@ -29,7 +32,7 @@ public abstract class BaseView<O, C>
     }
 
     @SuppressWarnings("unchecked")
-    public final View inflate(LayoutInflater inflater, ViewGroup container)
+    public View inflate(LayoutInflater inflater, ViewGroup container)
     {
         context = inflater.getContext();
         view = inflater.inflate(viewId, container, false);
@@ -97,14 +100,31 @@ public abstract class BaseView<O, C>
         view.setVisibility(View.GONE);
     }
 
-    protected Context context()
+    protected void background(View view, @ColorRes int color)
     {
-        return context;
+        view.setBackgroundColor(color(color));
+    }
+
+    protected void post(Runnable runnable)
+    {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(runnable);
+    }
+
+    public void hideKeyboard()
+    {
+        Keyboard keyboardHelper = new Keyboard(context());
+        keyboardHelper.hide(view);
     }
 
     public View findViewById(@IdRes int id)
     {
         return view.findViewById(id);
+    }
+
+    protected Context context()
+    {
+        return context;
     }
 
     public View view()

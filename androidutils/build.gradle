@@ -83,6 +83,7 @@ dependencies
     // android
     implementation "com.android.support:appcompat-v7:$support"
     implementation "com.android.support:customtabs:$support"
+    implementation "com.android.support:recyclerview-v7:$support"
 
     // java utils
     implementation 'com.mauriciotogneri:javautils:2.9.1'

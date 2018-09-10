@@ -3,6 +3,8 @@ package com.mauriciotogneri.androidutils.base;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager.LayoutParams;
 
 import com.mauriciotogneri.androidutils.ActivityParameters;
+import com.mauriciotogneri.androidutils.permissions.Permissions;
 import com.mauriciotogneri.androidutils.permissions.PermissionsResult;
 
 public abstract class BaseActivity<V extends BaseView, T extends BaseToolbarView, P extends BaseParameters> extends AppCompatActivity implements DialogDisplayer
@@ -142,6 +145,11 @@ public abstract class BaseActivity<V extends BaseView, T extends BaseToolbarView
         applyScreenTransition();
     }
 
+    protected Permissions permissions()
+    {
+        return new Permissions(this, this);
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults)
     {
@@ -149,6 +157,12 @@ public abstract class BaseActivity<V extends BaseView, T extends BaseToolbarView
 
         PermissionsResult permissionsResult = new PermissionsResult(this);
         permissionsResult.process(requestCode, permissions, grantResults);
+    }
+
+    protected void post(Runnable runnable)
+    {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(runnable);
     }
 
     @SuppressWarnings("unchecked")
