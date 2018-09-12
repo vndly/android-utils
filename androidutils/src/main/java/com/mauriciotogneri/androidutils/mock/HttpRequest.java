@@ -1,7 +1,5 @@
 package com.mauriciotogneri.androidutils.mock;
 
-import android.text.TextUtils;
-
 import com.mauriciotogneri.javautils.Encoding;
 
 import java.io.BufferedReader;
@@ -126,7 +124,7 @@ public class HttpRequest
 
         int contentLength = 0;
 
-        while (!TextUtils.isEmpty(line = reader.readLine()))
+        while (!isEmpty(line = reader.readLine()))
         {
             if ((method == null) || (route == null))
             {
@@ -164,5 +162,10 @@ public class HttpRequest
         }
 
         return new HttpRequest(method, route, cookies, headers, body);
+    }
+
+    private static boolean isEmpty(CharSequence string)
+    {
+        return (string == null) || (string.length() == 0);
     }
 }
