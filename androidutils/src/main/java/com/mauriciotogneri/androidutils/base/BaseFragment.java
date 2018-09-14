@@ -135,6 +135,12 @@ public abstract class BaseFragment<V extends BaseView, T extends BaseToolbarView
         handler.post(runnable);
     }
 
+    protected void post(Runnable runnable, long delay)
+    {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(runnable, delay);
+    }
+
     @SuppressWarnings("unchecked")
     protected <A> A parameter(String key, A defaultValue)
     {

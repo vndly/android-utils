@@ -111,6 +111,12 @@ public abstract class BaseView<O, C>
         handler.post(runnable);
     }
 
+    protected void post(Runnable runnable, long delay)
+    {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(runnable, delay);
+    }
+
     public void hideKeyboard()
     {
         Keyboard keyboardHelper = new Keyboard(context());
