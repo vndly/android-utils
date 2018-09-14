@@ -34,7 +34,8 @@ public abstract class BaseActivity<V extends BaseView, T extends BaseToolbarView
 
         setupToolbar(layout);
 
-        applyScreenTransition();
+        ScreenTransition screenTransition = screenTransition();
+        screenTransition.setupActivityEnter(this);
 
         if (disableScreenshot())
         {
@@ -42,11 +43,6 @@ public abstract class BaseActivity<V extends BaseView, T extends BaseToolbarView
         }
 
         initialize();
-    }
-
-    private void applyScreenTransition()
-    {
-        screenTransition().setup(this);
     }
 
     private void loadParameters()
@@ -123,7 +119,8 @@ public abstract class BaseActivity<V extends BaseView, T extends BaseToolbarView
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-            fragment.screenTransition().setup(transaction);
+            ScreenTransition screenTransition = fragment.screenTransition();
+            screenTransition.setupFragment(transaction);
 
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
@@ -142,7 +139,8 @@ public abstract class BaseActivity<V extends BaseView, T extends BaseToolbarView
     {
         super.finish();
 
-        applyScreenTransition();
+        ScreenTransition screenTransition = screenTransition();
+        screenTransition.setupActivityExit(this);
     }
 
     protected Permissions permissions()

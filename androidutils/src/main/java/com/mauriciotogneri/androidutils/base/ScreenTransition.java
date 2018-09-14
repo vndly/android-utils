@@ -34,7 +34,7 @@ public class ScreenTransition
         this(-1, -1, -1, -1);
     }
 
-    public void setup(FragmentTransaction transaction)
+    public void setupFragment(FragmentTransaction transaction)
     {
         if ((enter != 1) && (exit != -1) && (popEnter != -1) && (popExit != -1))
         {
@@ -46,11 +46,19 @@ public class ScreenTransition
         }
     }
 
-    public void setup(Activity activity)
+    public void setupActivityEnter(Activity activity)
     {
         if ((enter != 1) && (exit != -1))
         {
             activity.overridePendingTransition(enter, exit);
+        }
+    }
+
+    public void setupActivityExit(Activity activity)
+    {
+        if ((popEnter != 1) && (popExit != -1))
+        {
+            activity.overridePendingTransition(popEnter, popExit);
         }
     }
 }
