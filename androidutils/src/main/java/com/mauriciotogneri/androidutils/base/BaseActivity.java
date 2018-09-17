@@ -28,6 +28,8 @@ public abstract class BaseActivity<V extends BaseView, T extends BaseToolbarView
     {
         super.onCreate(savedInstanceState);
 
+        beforeCreate();
+        
         loadParameters();
 
         View layout = setupView();
@@ -91,6 +93,10 @@ public abstract class BaseActivity<V extends BaseView, T extends BaseToolbarView
     protected P parameters()
     {
         return null;
+    }
+
+    protected void beforeCreate()
+    {
     }
 
     protected void initialize()
