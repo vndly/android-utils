@@ -44,6 +44,8 @@ public abstract class BaseActivity<V extends BaseView, T extends BaseToolbarView
             getWindow().setFlags(LayoutParams.FLAG_SECURE, LayoutParams.FLAG_SECURE);
         }
 
+        afterCreate();
+
         initialize();
     }
 
@@ -96,6 +98,10 @@ public abstract class BaseActivity<V extends BaseView, T extends BaseToolbarView
     }
 
     protected void beforeCreate()
+    {
+    }
+
+    protected void afterCreate()
     {
     }
 
