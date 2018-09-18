@@ -16,23 +16,18 @@ import com.mauriciotogneri.androidutils.FragmentParameters;
 import com.mauriciotogneri.androidutils.permissions.Permissions;
 import com.mauriciotogneri.androidutils.permissions.PermissionsResult;
 
-public abstract class BaseFragment<V extends BaseView, T extends BaseToolbarView, P extends BaseParameters> extends Fragment implements DialogDisplayer
+public abstract class BaseFragment<V extends BaseView, P extends BaseParameters> extends Fragment implements DialogDisplayer
 {
     protected V view;
-    protected T toolbar;
     protected P parameters;
-    protected BaseActivity<?, ?, ?> activity;
+    protected BaseActivity<?, ?> activity;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         loadParameters();
 
-        View layout = setupView(inflater, container);
-
-        setupToolbar(layout);
-
-        return layout;
+        return setupView(inflater, container);
     }
 
     @Override
@@ -60,27 +55,12 @@ public abstract class BaseFragment<V extends BaseView, T extends BaseToolbarView
         return view.inflate(inflater, container);
     }
 
-    private void setupToolbar(View layout)
-    {
-        toolbar = toolbar();
-
-        if (toolbar != null)
-        {
-            toolbar.initialize(layout);
-        }
-    }
-
     protected ScreenTransition screenTransition()
     {
         return new ScreenTransition();
     }
 
     protected abstract V view();
-
-    protected T toolbar()
-    {
-        return null;
-    }
 
     protected P parameters()
     {

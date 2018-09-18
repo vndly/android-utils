@@ -17,10 +17,9 @@ import com.mauriciotogneri.androidutils.ActivityParameters;
 import com.mauriciotogneri.androidutils.permissions.Permissions;
 import com.mauriciotogneri.androidutils.permissions.PermissionsResult;
 
-public abstract class BaseActivity<V extends BaseView, T extends BaseToolbarView, P extends BaseParameters> extends AppCompatActivity implements DialogDisplayer
+public abstract class BaseActivity<V extends BaseView, P extends BaseParameters> extends AppCompatActivity implements DialogDisplayer
 {
     protected V view;
-    protected T toolbar;
     protected P parameters;
 
     @Override
@@ -29,12 +28,10 @@ public abstract class BaseActivity<V extends BaseView, T extends BaseToolbarView
         super.onCreate(savedInstanceState);
 
         beforeCreate();
-        
+
         loadParameters();
 
         View layout = setupView();
-
-        setupToolbar(layout);
 
         ScreenTransition screenTransition = screenTransition();
         screenTransition.setupActivityEnter(this);
@@ -70,27 +67,12 @@ public abstract class BaseActivity<V extends BaseView, T extends BaseToolbarView
         return layout;
     }
 
-    private void setupToolbar(View layout)
-    {
-        toolbar = toolbar();
-
-        if (toolbar != null)
-        {
-            toolbar.initialize(layout);
-        }
-    }
-
     protected ScreenTransition screenTransition()
     {
         return new ScreenTransition();
     }
 
     protected abstract V view();
-
-    protected T toolbar()
-    {
-        return null;
-    }
 
     protected P parameters()
     {
@@ -124,7 +106,7 @@ public abstract class BaseActivity<V extends BaseView, T extends BaseToolbarView
         return this;
     }
 
-    protected void addFragment(BaseFragment<?, ?, ?> fragment)
+    protected void addFragment(BaseFragment<?, ?> fragment)
     {
         if (fragment != null)
         {

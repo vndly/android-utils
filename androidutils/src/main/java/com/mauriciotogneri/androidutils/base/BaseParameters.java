@@ -8,12 +8,12 @@ import java.lang.reflect.Field;
 
 public class BaseParameters
 {
-    protected void bind(BaseFragment<?, ?, ?> fragment)
+    protected void bind(BaseFragment<?, ?> fragment)
     {
         bind(new ParameterHolder(fragment));
     }
 
-    protected void bind(BaseActivity<?, ?, ?> activity)
+    protected void bind(BaseActivity<?, ?> activity)
     {
         bind(new ParameterHolder(activity));
     }
@@ -63,15 +63,15 @@ public class BaseParameters
 
     public static class ParameterHolder
     {
-        private BaseFragment<?, ?, ?> fragment = null;
-        private BaseActivity<?, ?, ?> activity = null;
+        private BaseFragment<?, ?> fragment = null;
+        private BaseActivity<?, ?> activity = null;
 
-        public ParameterHolder(BaseFragment<?, ?, ?> fragment)
+        public ParameterHolder(BaseFragment<?, ?> fragment)
         {
             this.fragment = fragment;
         }
 
-        public ParameterHolder(BaseActivity<?, ?, ?> activity)
+        public ParameterHolder(BaseActivity<?, ?> activity)
         {
             this.activity = activity;
         }

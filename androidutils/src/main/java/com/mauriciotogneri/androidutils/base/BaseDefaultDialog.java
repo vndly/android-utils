@@ -1,6 +1,8 @@
 package com.mauriciotogneri.androidutils.base;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -57,6 +59,18 @@ public abstract class BaseDefaultDialog<C> extends DialogFragment
         {
             // ignore
         }
+    }
+
+    protected void post(Runnable runnable)
+    {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(runnable);
+    }
+
+    protected void post(Runnable runnable, long delay)
+    {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(runnable, delay);
     }
 
     // hack for android issue 17423 in the compatibility library
