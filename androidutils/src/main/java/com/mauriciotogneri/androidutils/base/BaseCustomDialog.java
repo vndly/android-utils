@@ -39,6 +39,8 @@ public abstract class BaseCustomDialog<V extends BaseView, C> extends BaseDefaul
     @SuppressWarnings("ConstantConditions")
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
+        setCancelable(isDialogCancelable());
+
         View layout = view.inflate(LayoutInflater.from(getContext()), null);
         initialize();
 
