@@ -4,6 +4,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.util.Base64;
 
+import com.mauriciotogneri.javautils.Json;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -87,6 +89,11 @@ public class Preferences
         save(key, Base64.encodeToString(value, Base64.DEFAULT));
     }
 
+    public void save(String key, Object json)
+    {
+        save(key, Json.json(json));
+    }
+
     // =============================================================================================
 
     public String load(String key, String defaultValue)
@@ -122,5 +129,10 @@ public class Preferences
     public byte[] load(String key, byte[] defaultValue)
     {
         return contains(key) ? Base64.decode(load(key, ""), Base64.DEFAULT) : defaultValue;
+    }
+
+    public <T> T load(String key, Class<T> clazz, String defaultValue)
+    {
+        return Json.object(preferences.getString(key, defaultValue), clazz);
     }
 }

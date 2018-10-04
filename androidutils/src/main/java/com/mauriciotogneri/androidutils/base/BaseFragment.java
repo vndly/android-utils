@@ -71,14 +71,29 @@ public abstract class BaseFragment<V extends BaseView, P extends BaseParameters>
     {
     }
 
+    protected void replaceFragment(BaseFragment<?, ?> fragment)
+    {
+        activity.replaceFragment(fragment);
+    }
+
+    protected void addFragmentToStack(BaseFragment<?, ?> fragment)
+    {
+        activity.addFragmentToStack(fragment);
+    }
+
     protected void finish()
     {
         activity.finish();
     }
 
+    protected void back()
+    {
+        activity.popFragment();
+    }
+
     protected void close()
     {
-        activity.removeFragment();
+        activity.removeFragments();
     }
 
     protected Context context()

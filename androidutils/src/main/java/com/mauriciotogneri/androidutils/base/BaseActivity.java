@@ -31,7 +31,7 @@ public abstract class BaseActivity<V extends BaseView, P extends BaseParameters>
 
         loadParameters();
 
-        View layout = setupView();
+        setupView();
 
         ScreenTransition screenTransition = screenTransition();
         screenTransition.setupActivityEnter(this);
@@ -56,15 +56,13 @@ public abstract class BaseActivity<V extends BaseView, P extends BaseParameters>
         }
     }
 
-    private View setupView()
+    private void setupView()
     {
         view = view();
         ViewGroup container = getWindow().getDecorView().findViewById(android.R.id.content);
         View layout = view.inflate(getLayoutInflater(), container);
 
         setContentView(layout);
-
-        return layout;
     }
 
     protected ScreenTransition screenTransition()
@@ -106,26 +104,43 @@ public abstract class BaseActivity<V extends BaseView, P extends BaseParameters>
         return this;
     }
 
-    protected void addFragment(BaseFragment<?, ?> fragment)
+    protected void replaceFragment(BaseFragment<?, ?> fragment)
     {
-        if (fragment != null)
-        {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
+        removeFragments();
 
-            ScreenTransition screenTransition = fragment.screenTransition();
-            screenTransition.setupFragment(transaction);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        ScreenTransition screenTransition = fragment.screenTransition();
+        screenTransition.setupFragment(transaction);
 
-            transaction.replace(fragmentContainer(), fragment);
-            transaction.commitAllowingStateLoss();
-        }
+        transaction.replace(fragmentContainer(), fragment);
+        transaction.commitAllowingStateLoss();
     }
 
-    protected void removeFragment()
+    protected void addFragmentToStack(BaseFragment<?, ?> fragment)
     {
-        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        ScreenTransition screenTransition = fragment.screenTransition();
+        screenTransition.setupFragment(transaction);
+
+        transaction.replace(fragmentContainer(), fragment);
+        transaction.addToBackStack(null);
+        transaction.commitAllowingStateLoss();
+    }
+
+    protected void popFragment()
+    {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack();
+    }
+
+    protected void removeFragments()
+    {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
     @Override
