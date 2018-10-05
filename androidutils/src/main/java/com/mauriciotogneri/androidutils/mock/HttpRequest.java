@@ -17,6 +17,7 @@ public class HttpRequest
 {
     private final String method;
     private final String route;
+    private final String path;
     private final List<String> cookies;
     private final Map<String, String> headers;
     private final String body;
@@ -25,14 +26,22 @@ public class HttpRequest
     {
         this.method = method;
         this.route = route;
+        this.path = path(route);
         this.cookies = cookies;
         this.headers = headers;
         this.body = body;
     }
 
+    private String path(String route)
+    {
+        int paramsStart = route.indexOf("?");
+
+        return (paramsStart == -1) ? route : route.substring(0, paramsStart);
+    }
+
     public boolean matches(String method, String pattern)
     {
-        return this.method.equals(method) && route.matches(pattern);
+        return this.method.equals(method) && path.matches(pattern);
     }
 
     public List<String> cookies()
