@@ -117,10 +117,16 @@ public abstract class BaseView<O, C>
         handler.postDelayed(runnable, delay);
     }
 
-    public void hideKeyboard()
+    protected void hideKeyboard()
     {
-        Keyboard keyboardHelper = new Keyboard(context());
-        keyboardHelper.hide(view);
+        Keyboard keyboard = new Keyboard(context());
+        keyboard.hide(view);
+    }
+
+    protected void onKeyboardOpen(View root, int threshold, Runnable runnable)
+    {
+        Keyboard keyboard = new Keyboard(context());
+        keyboard.onOpen(root, threshold, runnable);
     }
 
     public View findViewById(@IdRes int id)
