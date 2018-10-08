@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.mauriciotogneri.androidutils.Keyboard;
+import com.mauriciotogneri.androidutils.Keyboard.KeyboardObserver;
 import com.mauriciotogneri.androidutils.uibinder.UiBinder;
 
 public abstract class BaseView<O, C>
@@ -123,10 +124,10 @@ public abstract class BaseView<O, C>
         keyboard.hide(view);
     }
 
-    protected void onKeyboardOpen(View root, int threshold, Runnable runnable)
+    protected void onKeyboardChange(View root, int threshold, KeyboardObserver observer)
     {
         Keyboard keyboard = new Keyboard(context());
-        keyboard.onOpen(root, threshold, runnable);
+        keyboard.onChange(root, threshold, observer);
     }
 
     public View findViewById(@IdRes int id)

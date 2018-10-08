@@ -26,7 +26,7 @@ public class Keyboard
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public void onOpen(View root, int threshold, Runnable runnable)
+    public void onChange(View root, int threshold, KeyboardObserver observer)
     {
         root.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
             Rect rect = new Rect();
@@ -34,10 +34,12 @@ public class Keyboard
 
             int heightDiff = root.getRootView().getHeight() - (rect.bottom - rect.top);
 
-            if ((heightDiff > (root.getRootView().getHeight() / threshold)))
-            {
-                runnable.run();
-            }
+            observer.onChange((heightDiff > (root.getRootView().getHeight() / threshold)));
         });
+    }
+
+    public interface KeyboardObserver
+    {
+        void onChange(boolean opened);
     }
 }
