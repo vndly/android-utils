@@ -7,12 +7,19 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Window;
+import android.view.WindowManager.LayoutParams;
 
 public abstract class BaseDefaultDialog<C> extends DialogFragment
 {
     protected C callback;
 
     protected abstract String tag();
+
+    protected boolean openKeyboard()
+    {
+        return false;
+    }
 
     @SuppressWarnings("unchecked")
     protected <T> T parameter(String key, T defaultValue)
@@ -71,6 +78,29 @@ public abstract class BaseDefaultDialog<C> extends DialogFragment
     {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(runnable, delay);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
+
+        if (openKeyboard())
+        {
+            try
+            {
+                Window window = getDialog().getWindow();
+
+                if (window != null)
+                {
+                    window.setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                }
+            }
+            catch (Exception e)
+            {
+                // ignore
+            }
+        }
     }
 
     // hack for android issue 17423 in the compatibility library
