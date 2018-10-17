@@ -118,6 +118,12 @@ public abstract class BaseView<O, C>
         handler.postDelayed(runnable, delay);
     }
 
+    protected void showKeyboard()
+    {
+        Keyboard keyboard = new Keyboard(context());
+        keyboard.show(view);
+    }
+
     protected void hideKeyboard()
     {
         Keyboard keyboard = new Keyboard(context());

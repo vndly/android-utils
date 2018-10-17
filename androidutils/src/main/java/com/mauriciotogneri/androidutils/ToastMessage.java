@@ -2,6 +2,7 @@ package com.mauriciotogneri.androidutils;
 
 import android.content.Context;
 import android.support.annotation.StringRes;
+import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
 public class ToastMessage
@@ -11,6 +12,11 @@ public class ToastMessage
     public ToastMessage(Context context)
     {
         this.context = context;
+    }
+
+    public ToastMessage(Fragment fragment)
+    {
+        this.context = fragment.getContext();
     }
 
     public void shortMessage(@StringRes int stringId, Object... arguments)
