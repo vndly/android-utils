@@ -136,6 +136,14 @@ public abstract class BaseView<O, C>
         keyboard.onChange(root, threshold, observer);
     }
 
+    @SuppressWarnings("unchecked")
+    protected  <T extends View> T view(String name)
+    {
+        int resId = context().getResources().getIdentifier(name, "id", context().getPackageName());
+
+        return (T) findViewById(resId);
+    }
+
     public View findViewById(@IdRes int id)
     {
         return view.findViewById(id);

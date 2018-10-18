@@ -1,4 +1,4 @@
-package com.mauriciotogneri.androidutils;
+package com.mauriciotogneri.androidutils.base;
 
 import java.lang.reflect.Field;
 
