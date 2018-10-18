@@ -137,7 +137,7 @@ public abstract class BaseView<O, C>
     }
 
     @SuppressWarnings("unchecked")
-    protected  <T extends View> T view(String name)
+    protected <T extends View> T view(String name)
     {
         int resId = context().getResources().getIdentifier(name, "id", context().getPackageName());
 
