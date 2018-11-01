@@ -30,6 +30,11 @@ public class BaseRecyclerViewHolder extends RecyclerView.ViewHolder implements O
         uiBinder.bind(view, this);
     }
 
+    protected BaseRecyclerViewHolder(View view)
+    {
+        this(view, null);
+    }
+
     @Override
     public void onClick(View view)
     {

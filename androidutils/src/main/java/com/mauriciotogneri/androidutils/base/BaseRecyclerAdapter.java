@@ -1,7 +1,13 @@
 package com.mauriciotogneri.androidutils.base;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
@@ -11,12 +17,14 @@ import android.view.ViewGroup;
 
 import com.mauriciotogneri.androidutils.base.BaseRecyclerViewHolder.OnViewHolderClicked;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseRecyclerAdapter<T, V extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<V> implements OnViewHolderClicked
 {
     private final int resourceId;
     private final List<T> items;
+    private final Context context;
     private final LayoutInflater inflater;
     private final OnItemSelected<T> onItemSelected;
 
@@ -24,20 +32,35 @@ public abstract class BaseRecyclerAdapter<T, V extends RecyclerView.ViewHolder> 
     {
         this.resourceId = resourceId;
         this.items = items;
+        this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.onItemSelected = onItemSelected;
     }
 
-    @Override
-    public V onCreateViewHolder(ViewGroup parent, int viewType)
+    public BaseRecyclerAdapter(Context context, int resourceId, List<T> items)
     {
-        return viewHolder(inflater.inflate(resourceId, parent, false));
+        this(context, resourceId, items, null);
     }
 
-    @Override
-    public void onBindViewHolder(V viewHolder, int position)
+    public BaseRecyclerAdapter(Context context, int resourceId)
     {
-        fillView(viewHolder, items.get(position));
+        this(context, resourceId, new ArrayList<>(), null);
+    }
+
+    @NonNull
+    @Override
+    public V onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    {
+        View rowView = inflater.inflate(rowViewResource(viewType), parent, false);
+
+        return viewHolder(rowView);
+    }
+
+    public void onBindViewHolder(@NonNull V holder, int position)
+    {
+        T item = item(position);
+
+        fillView(holder, item, position, holder.itemView);
     }
 
     @Override
@@ -48,7 +71,69 @@ public abstract class BaseRecyclerAdapter<T, V extends RecyclerView.ViewHolder> 
 
     protected abstract V viewHolder(View view);
 
-    protected abstract void fillView(V viewHolder, T item);
+    protected abstract void fillView(V viewHolder, T item, int position, View rowView);
+
+    protected int rowViewResource(int viewType)
+    {
+        return resourceId;
+    }
+
+    protected View inflate(@LayoutRes int resource, ViewGroup root, boolean attachToRoot)
+    {
+        return inflater.inflate(resource, root, attachToRoot);
+    }
+
+    protected View inflate(@LayoutRes int resource)
+    {
+        return inflate(resource, null, false);
+    }
+
+    protected int color(@ColorRes int colorId)
+    {
+        return ContextCompat.getColor(context(), colorId);
+    }
+
+    protected String string(@StringRes int resId)
+    {
+        return context.getString(resId);
+    }
+
+    protected String string(@StringRes int resId, Object... formatArgs)
+    {
+        return context.getString(resId, formatArgs);
+    }
+
+    protected void visible(View view)
+    {
+        view.setVisibility(View.VISIBLE);
+    }
+
+    protected void invisible(View view)
+    {
+        view.setVisibility(View.INVISIBLE);
+    }
+
+    protected void gone(View view)
+    {
+        view.setVisibility(View.GONE);
+    }
+
+    protected void post(Runnable runnable)
+    {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(runnable);
+    }
+
+    protected void post(Runnable runnable, long delay)
+    {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(runnable, delay);
+    }
+
+    protected Context context()
+    {
+        return context;
+    }
 
     public T item(int position)
     {
@@ -58,6 +143,11 @@ public abstract class BaseRecyclerAdapter<T, V extends RecyclerView.ViewHolder> 
     public void update()
     {
         notifyDataSetChanged();
+    }
+
+    public void clear()
+    {
+        items.clear();
     }
 
     public void update(List<T> list)
@@ -73,6 +163,24 @@ public abstract class BaseRecyclerAdapter<T, V extends RecyclerView.ViewHolder> 
         items.add(element);
 
         update();
+    }
+
+    public void addAll(List<T> list)
+    {
+        items.addAll(list);
+
+        update();
+    }
+
+    public void set(List<T> list)
+    {
+        clear();
+        addAll(list);
+    }
+
+    public List<T> items()
+    {
+        return items;
     }
 
     @Override
