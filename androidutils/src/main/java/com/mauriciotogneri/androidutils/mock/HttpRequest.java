@@ -1,6 +1,7 @@
 package com.mauriciotogneri.androidutils.mock;
 
 import com.mauriciotogneri.javautils.Encoding;
+import com.mauriciotogneri.javautils.Json;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,13 +27,13 @@ public class HttpRequest
     {
         this.method = method;
         this.route = route;
-        this.path = path(route);
+        this.path = pathRoute(route);
         this.cookies = cookies;
         this.headers = headers;
         this.body = body;
     }
 
-    private String path(String route)
+    private String pathRoute(String route)
     {
         int paramsStart = route.indexOf("?");
 
@@ -54,12 +55,27 @@ public class HttpRequest
         return headers;
     }
 
+    public boolean hasHeader(String name)
+    {
+        return headers.containsKey(name);
+    }
+
+    public String header(String name)
+    {
+        return headers.get(name);
+    }
+
     public String body()
     {
         return body;
     }
 
-    public List<String> pathParameters(String regex)
+    public <T> T body(Class<T> clazz)
+    {
+        return Json.object(body, clazz);
+    }
+
+    public List<String> path(String regex)
     {
         List<String> result = new ArrayList<>();
 
@@ -74,7 +90,14 @@ public class HttpRequest
         return result;
     }
 
-    public Map<String, String> queryParameters()
+    public String path(String regex, int index)
+    {
+        List<String> parameters = path(regex);
+
+        return parameters.get(index);
+    }
+
+    public Map<String, String> query()
     {
         Map<String, String> result = new HashMap<>();
 
@@ -97,7 +120,26 @@ public class HttpRequest
         return result;
     }
 
-    public Map<String, String> formParameters()
+    public String query(String name)
+    {
+        Map<String, String> map = query();
+
+        if (map.containsKey(name))
+        {
+            return map.get(name);
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public <T> T query(Class<T> clazz)
+    {
+        return Json.object(query(), clazz);
+    }
+
+    public Map<String, String> form()
     {
         Map<String, String> result = new HashMap<>();
 

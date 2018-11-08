@@ -1,10 +1,8 @@
 package com.mauriciotogneri.androidutils.mock;
 
 import com.mauriciotogneri.javautils.Encoding;
-import com.mauriciotogneri.javautils.Json;
 
 import java.util.List;
-import java.util.Map;
 
 public abstract class EndPoint
 {
@@ -35,6 +33,18 @@ public abstract class EndPoint
 
     public abstract HttpResponse process(HttpRequest httpRequest);
 
+    protected void wait(int milliseconds)
+    {
+        try
+        {
+            Thread.sleep(milliseconds);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     protected String decode(String text)
     {
         try
@@ -45,44 +55,6 @@ public abstract class EndPoint
         {
             return text;
         }
-    }
-
-    protected String path(HttpRequest httpRequest, int index)
-    {
-        List<String> parameters = httpRequest.pathParameters(pattern());
-
-        return parameters.get(index);
-    }
-
-    protected List<String> path(HttpRequest httpRequest)
-    {
-        return httpRequest.pathParameters(pattern());
-    }
-
-    protected String query(HttpRequest httpRequest, String paramName)
-    {
-        Map<String, String> map = httpRequest.queryParameters();
-
-        if (map.containsKey(paramName))
-        {
-            return map.get(paramName);
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    protected <T> T query(HttpRequest httpRequest, Class<T> clazz)
-    {
-        Map<String, String> map = httpRequest.queryParameters();
-
-        return Json.object(map, clazz);
-    }
-
-    protected <T> T body(HttpRequest httpRequest, Class<T> clazz)
-    {
-        return Json.object(httpRequest.body(), clazz);
     }
 
     protected HttpResponse response(HttpResponseCode code)
