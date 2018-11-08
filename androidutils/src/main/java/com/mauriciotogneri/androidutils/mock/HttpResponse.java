@@ -23,11 +23,8 @@ public class HttpResponse
 
     public void respond(OutputStream outputStream) throws IOException
     {
-        PrintStream output = null;
-
-        try
+        try (PrintStream output = new PrintStream(outputStream))
         {
-            output = new PrintStream(outputStream);
             output.println(String.format("HTTP/1.0 %s", code));
 
             for (String header : headers)
@@ -48,13 +45,6 @@ public class HttpResponse
             }
 
             output.flush();
-        }
-        finally
-        {
-            if (null != output)
-            {
-                output.close();
-            }
         }
     }
 
