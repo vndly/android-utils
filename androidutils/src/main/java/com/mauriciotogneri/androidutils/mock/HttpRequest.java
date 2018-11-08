@@ -62,7 +62,7 @@ public class HttpRequest
 
     public String header(String name)
     {
-        return headers.get(name);
+        return headers.get(name).trim();
     }
 
     public String body()
@@ -84,7 +84,7 @@ public class HttpRequest
 
         while (matcher.find())
         {
-            result.add(matcher.group(1));
+            result.add(matcher.group(1).trim());
         }
 
         return result;
@@ -109,7 +109,7 @@ public class HttpRequest
             {
                 String[] param = part.split("=");
 
-                result.put(param[0], Encoding.urlDecode(param[1]));
+                result.put(param[0].trim(), Encoding.urlDecode(param[1]).trim());
             }
         }
         catch (Exception e)
@@ -151,7 +151,7 @@ public class HttpRequest
             {
                 String[] param = part.split("=");
 
-                result.put(param[0], Encoding.urlDecode(param[1]));
+                result.put(param[0].trim(), Encoding.urlDecode(param[1]).trim());
             }
         }
         catch (Exception e)
@@ -200,7 +200,7 @@ public class HttpRequest
                 }
                 else
                 {
-                    headers.put(name, value);
+                    headers.put(name.trim(), value.trim());
                 }
             }
         }
