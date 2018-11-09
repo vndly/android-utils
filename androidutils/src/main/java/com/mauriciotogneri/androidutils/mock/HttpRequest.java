@@ -1,5 +1,8 @@
 package com.mauriciotogneri.androidutils.mock;
 
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
+
 import com.mauriciotogneri.javautils.Encoding;
 import com.mauriciotogneri.javautils.Json;
 
@@ -60,9 +63,10 @@ public class HttpRequest
         return headers.containsKey(name);
     }
 
+    @Nullable
     public String header(String name)
     {
-        return headers.get(name).trim();
+        return headers.get(name);
     }
 
     public String body()
@@ -108,8 +112,10 @@ public class HttpRequest
             for (String part : parts)
             {
                 String[] param = part.split("=");
+                String name = param[0].trim();
+                String value = (param.length > 1) ? Encoding.urlDecode(param[1]).trim() : "";
 
-                result.put(param[0].trim(), Encoding.urlDecode(param[1]).trim());
+                result.put(name, value);
             }
         }
         catch (Exception e)
@@ -120,18 +126,12 @@ public class HttpRequest
         return result;
     }
 
+    @Nullable
     public String query(String name)
     {
         Map<String, String> map = query();
 
-        if (map.containsKey(name))
-        {
-            return map.get(name);
-        }
-        else
-        {
-            return null;
-        }
+        return map.get(name);
     }
 
     public <T> T query(Class<T> clazz)
@@ -150,8 +150,10 @@ public class HttpRequest
             for (String part : parts)
             {
                 String[] param = part.split("=");
+                String name = param[0].trim();
+                String value = (param.length > 1) ? Encoding.urlDecode(param[1]).trim() : "";
 
-                result.put(param[0].trim(), Encoding.urlDecode(param[1]).trim());
+                result.put(name, value);
             }
         }
         catch (Exception e)
@@ -160,6 +162,19 @@ public class HttpRequest
         }
 
         return result;
+    }
+
+    @Nullable
+    public String form(String name)
+    {
+        Map<String, String> map = form();
+
+        return map.get(name);
+    }
+
+    public <T> T form(Class<T> clazz)
+    {
+        return Json.object(form(), clazz);
     }
 
     public static HttpRequest fromInputStream(InputStream inputStream) throws IOException
@@ -175,7 +190,7 @@ public class HttpRequest
 
         int contentLength = 0;
 
-        while (!isEmpty(line = reader.readLine()))
+        while (!TextUtils.isEmpty(line = reader.readLine()))
         {
             if ((method == null) || (route == null))
             {
@@ -213,10 +228,5 @@ public class HttpRequest
         }
 
         return new HttpRequest(method, route, cookies, headers, body);
-    }
-
-    private static boolean isEmpty(CharSequence string)
-    {
-        return (string == null) || (string.length() == 0);
     }
 }
