@@ -12,9 +12,9 @@ public class HttpResponse
 {
     private final HttpResponseCode code;
     private final List<String> headers;
-    private final String body;
+    private final byte[] body;
 
-    public HttpResponse(HttpResponseCode code, List<String> headers, String body)
+    public HttpResponse(HttpResponseCode code, List<String> headers, byte[] body)
     {
         this.code = code;
         this.headers = headers;
@@ -34,10 +34,9 @@ public class HttpResponse
 
             if (body != null)
             {
-                byte[] bytes = body.getBytes();
-                output.println("Content-Length: " + bytes.length);
+                output.println("Content-Length: " + body.length);
                 output.println();
-                output.write(bytes);
+                output.write(body);
             }
             else
             {
@@ -52,7 +51,7 @@ public class HttpResponse
     {
         private final HttpResponseCode code;
         private final List<String> headers;
-        private String body;
+        private byte[] body;
 
         public Builder(HttpResponseCode code)
         {
@@ -69,6 +68,13 @@ public class HttpResponse
 
         public Builder string(String body)
         {
+            this.body = body.getBytes();
+
+            return this;
+        }
+
+        public Builder bytes(byte[] body)
+        {
             this.body = body;
 
             return this;
@@ -76,21 +82,21 @@ public class HttpResponse
 
         public Builder json(Object object)
         {
-            this.body = Json.json(object);
+            this.body = Json.json(object).getBytes();
 
             return this;
         }
 
         public Builder array(Object... object)
         {
-            this.body = Json.json(object);
+            this.body = Json.json(object).getBytes();
 
             return this;
         }
 
         public Builder list(List<?> object)
         {
-            this.body = Json.json(object);
+            this.body = Json.json(object).getBytes();
 
             return this;
         }
