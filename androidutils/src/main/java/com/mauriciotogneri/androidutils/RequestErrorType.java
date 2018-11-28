@@ -37,7 +37,7 @@ public enum RequestErrorType
         return code;
     }
 
-    public RequestErrorType fromCode(int responseCode)
+    public static RequestErrorType fromCode(int responseCode)
     {
         for (RequestErrorType type : RequestErrorType.values())
         {
