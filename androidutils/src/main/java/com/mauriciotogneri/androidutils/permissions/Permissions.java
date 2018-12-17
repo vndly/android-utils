@@ -101,6 +101,28 @@ public class Permissions
         return Lists.asArray(result, String.class);
     }
 
+    public static boolean isGranted(Context context, String... permissions)
+    {
+        return checkPermission(context, PackageManager.PERMISSION_GRANTED, permissions);
+    }
+
+    public static boolean isDenied(Context context, String... permissions)
+    {
+        return checkPermission(context, PackageManager.PERMISSION_DENIED, permissions);
+    }
+
+    private static boolean checkPermission(Context context, int status, String... permissions)
+    {
+        boolean granted = true;
+
+        for (String permission : permissions)
+        {
+            granted &= (ContextCompat.checkSelfPermission(context, permission) == status);
+        }
+
+        return granted;
+    }
+
     private interface PermissionRequest
     {
         Context context();
