@@ -31,9 +31,21 @@ public abstract class Fonts
 
     protected abstract String defaultFontName();
 
+    protected Typeface loadTypeface(String fileName, int style)
+    {
+        Typeface typeface = Typeface.createFromAsset(context.getAssets(), String.format("fonts/%s", fileName));
+
+        if (style != -1)
+        {
+            typeface = Typeface.create(typeface, style);
+        }
+
+        return typeface;
+    }
+
     protected Typeface loadTypeface(String fileName)
     {
-        return Typeface.createFromAsset(context.getAssets(), String.format("fonts/%s", fileName));
+        return loadTypeface(fileName, -1);
     }
 
     protected void loadFont(String key, Typeface typeface, int unit, @DimenRes int sizeId)
