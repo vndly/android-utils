@@ -86,7 +86,7 @@ dependencies
     implementation "com.android.support:recyclerview-v7:$support"
 
     // java utils
-    implementation 'com.mauriciotogneri:javautils:3.0.0'
+    implementation 'com.mauriciotogneri:javautils:3.1.0'
 
     // gson
     implementation 'com.google.code.gson:gson:2.8.5'

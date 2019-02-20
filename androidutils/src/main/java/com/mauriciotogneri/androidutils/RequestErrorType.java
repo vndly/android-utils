@@ -7,29 +7,29 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
-public enum RequestErrorType
+public class RequestErrorType
 {
-    BAD_REQUEST(400),
-    UNAUTHORIZED(401),
-    FORBIDDEN(403),
-    NOT_FOUND(404),
-    METHOD_NOT_ALLOWED(405),
-    CONFLICT(409),
-    PRECONDITION_FAILED(412),
-    TOO_MANY_REQUESTS(429),
-    INTERNAL_SERVER_ERROR(500),
-    BAD_GATEWAY(502),
-    SERVICE_UNAVAILABLE(503),
-    GATEWAY_TIMEOUT(504),
-    NO_INTERNET(0),
-    NETWORK_TIMEOUT(0),
-    UNKNOWN(0);
+    public enum Source
+    {
+        HTTP,
+        NO_INTERNET,
+        NETWORK_TIMEOUT,
+        UNKNOWN
+    }
 
     private final int code;
+    private final Source source;
 
-    RequestErrorType(int code)
+    RequestErrorType(int code, Source source)
     {
         this.code = code;
+        this.source = source;
+    }
+
+    RequestErrorType(Source source)
+    {
+        this.code = 0;
+        this.source = source;
     }
 
     public int code()
@@ -37,17 +37,14 @@ public enum RequestErrorType
         return code;
     }
 
+    public Source source()
+    {
+        return source;
+    }
+
     public static RequestErrorType fromCode(int responseCode)
     {
-        for (RequestErrorType type : RequestErrorType.values())
-        {
-            if (type.code() == responseCode)
-            {
-                return type;
-            }
-        }
-
-        return UNKNOWN;
+        return new RequestErrorType(responseCode, Source.HTTP);
     }
 
     public static RequestErrorType fromException(Throwable throwable, Context context)
@@ -56,15 +53,15 @@ public enum RequestErrorType
 
         if (noInternetException(throwable) && !connectivity.isConnected())
         {
-            return NO_INTERNET;
+            return new RequestErrorType(Source.NO_INTERNET);
         }
         else if (timeoutException(throwable) && connectivity.isConnected())
         {
-            return NETWORK_TIMEOUT;
+            return new RequestErrorType(Source.NETWORK_TIMEOUT);
         }
         else
         {
-            return UNKNOWN;
+            return new RequestErrorType(Source.UNKNOWN);
         }
     }
 
