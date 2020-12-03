@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import androidx.annotation.NonNull;
+
 public class TextStyle
 {
     private final TextView target;
@@ -24,7 +26,7 @@ public class TextStyle
         this.selections = new ArrayList<>();
     }
 
-    public TextStyle(TextView target)
+    public TextStyle(@NonNull TextView target)
     {
         this.target = target;
         this.text = target.getText().toString();
@@ -50,12 +52,16 @@ public class TextStyle
             {
                 String withPattern = matcher.group(0);
                 String withoutPattern = matcher.group(1);
-                int start = result.indexOf(withPattern);
-                int end = start + withoutPattern.length();
 
-                matches.add(new TextStyleMatch(start, end, selection.spans(withoutPattern)));
+                if ((withPattern != null) && (withoutPattern != null))
+                {
+                    int start = result.indexOf(withPattern);
+                    int end = start + withoutPattern.length();
 
-                result = result.replace(withPattern, withoutPattern);
+                    matches.add(new TextStyleMatch(start, end, selection.spans(withoutPattern)));
+
+                    result = result.replace(withPattern, withoutPattern);
+                }
             }
         }
 
@@ -73,7 +79,8 @@ public class TextStyle
         target.setText(spannable);
     }
 
-    private List<TextSelection> orderedSelections(String text, List<TextSelection> selections)
+    @NonNull
+    private List<TextSelection> orderedSelections(String text, @NonNull List<TextSelection> selections)
     {
         SparseArray<TextSelection> array = new SparseArray<>();
 

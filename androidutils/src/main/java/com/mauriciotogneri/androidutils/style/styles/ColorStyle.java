@@ -4,6 +4,7 @@ import android.text.TextPaint;
 import android.text.style.CharacterStyle;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 
 public class ColorStyle extends CharacterStyle
 {
@@ -15,7 +16,7 @@ public class ColorStyle extends CharacterStyle
     }
 
     @Override
-    public void updateDrawState(TextPaint tp)
+    public void updateDrawState(@NonNull TextPaint tp)
     {
         tp.setColor(color);
     }
