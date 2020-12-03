@@ -1,4 +1,4 @@
-package com.mauriciotogneri.androidutils.fileprovider;
+package com.mauriciotogneri.androidutils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
