@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 public class IntentOperation
@@ -87,7 +88,7 @@ public class IntentOperation
         }
     }
 
-    private boolean startActivity(IntentTarget target, Intent intent)
+    private boolean startActivity(@NonNull IntentTarget target, @NonNull Intent intent)
     {
         if (intent.resolveActivity(target.context().getPackageManager()) != null)
         {
@@ -101,7 +102,7 @@ public class IntentOperation
         }
     }
 
-    private boolean startActivityForResult(IntentTarget target, Intent intent, int requestCode)
+    private boolean startActivityForResult(@NonNull IntentTarget target, @NonNull Intent intent, int requestCode)
     {
         if (intent.resolveActivity(target.context().getPackageManager()) != null)
         {

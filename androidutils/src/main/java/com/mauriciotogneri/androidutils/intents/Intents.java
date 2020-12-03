@@ -20,16 +20,19 @@ import androidx.core.content.ContextCompat;
 
 public class Intents
 {
+    @NonNull
     public static IntentOperation custom(Intent intent)
     {
         return new IntentOperation(intent);
     }
 
+    @NonNull
     public static IntentOperation custom(Intent intent, int requestCode)
     {
         return new IntentOperation(intent, requestCode);
     }
 
+    @NonNull
     public static IntentOperation shareLink(String url)
     {
         Intent intent = new Intent();
@@ -40,6 +43,7 @@ public class Intents
         return new IntentOperation(intent);
     }
 
+    @NonNull
     public static IntentOperation sendEmail(String address, String subject, String text)
     {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
@@ -51,6 +55,17 @@ public class Intents
         return new IntentOperation(intent);
     }
 
+    @NonNull
+    public static IntentOperation dialNumber(String phoneNumber)
+    {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setData(Uri.parse(String.format("tel:%s", phoneNumber)));
+
+        return new IntentOperation(intent);
+    }
+
+    @NonNull
     public static IntentOperation callNumber(String phoneNumber)
     {
         Intent intent = new Intent(Intent.ACTION_CALL);
@@ -60,26 +75,24 @@ public class Intents
         return new IntentOperation(intent);
     }
 
+    @NonNull
     public static IntentOperation takePicture(Context context, Uri uri)
     {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        }
-        else
+        if (Build.VERSION.SDK_INT < VERSION_CODES.LOLLIPOP)
         {
             ClipData clip = ClipData.newUri(context.getContentResolver(), "picture", uri);
-
             intent.setClipData(clip);
-            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         }
+
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 
         return new IntentOperation(intent);
     }
 
+    @NonNull
     public static IntentOperation pictureThumbnail()
     {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -87,6 +100,7 @@ public class Intents
         return new IntentOperation(intent);
     }
 
+    @NonNull
     public static IntentOperation selectFromGallery(String type)
     {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -95,6 +109,7 @@ public class Intents
         return new IntentOperation(intent);
     }
 
+    @NonNull
     @TargetApi(VERSION_CODES.KITKAT)
     public static IntentOperation selectFromGallery(String[] types)
     {
@@ -105,6 +120,7 @@ public class Intents
         return new IntentOperation(intent);
     }
 
+    @NonNull
     public static IntentOperation openFile(Uri uri, String type)
     {
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -114,6 +130,7 @@ public class Intents
         return new IntentOperation(intent);
     }
 
+    @NonNull
     public static IntentOperation shareFile(Uri uri, String type)
     {
         Intent intent = new Intent();
@@ -125,6 +142,7 @@ public class Intents
         return new IntentOperation(intent);
     }
 
+    @NonNull
     private static IntentOperation shareFiles(ArrayList<Uri> uris)
     {
         Intent intent = new Intent();
@@ -136,6 +154,7 @@ public class Intents
         return new IntentOperation(intent);
     }
 
+    @NonNull
     public static IntentOperation address(String address) throws Exception
     {
         Uri uri = Uri.parse(String.format("geo:0,0?q=%s", Encoding.urlEncode(address)));
@@ -146,6 +165,7 @@ public class Intents
         return new IntentOperation(intent);
     }
 
+    @NonNull
     public static IntentOperation route(double latitude, double longitude)
     {
         Uri uri = Uri.parse(String.format("geo:%s,%s?q=%s,%s", latitude, longitude, latitude, longitude));
@@ -156,6 +176,7 @@ public class Intents
         return new IntentOperation(intent);
     }
 
+    @NonNull
     public static IntentOperation openAppPlayStore(@NonNull String packageName)
     {
         String uri = String.format("market://details?id=%s", packageName);
@@ -173,6 +194,7 @@ public class Intents
 
     public static void openWebPage(Context context, String url, @ColorRes int color)
     {
+        // TODO
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         builder.addDefaultShareMenuItem();
         builder.setToolbarColor(ContextCompat.getColor(context, color));
