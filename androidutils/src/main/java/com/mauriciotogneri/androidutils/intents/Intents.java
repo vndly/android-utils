@@ -105,6 +105,7 @@ public class Intents
     public static IntentOperation selectFromGallery(String type)
     {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType(type);
 
         return new IntentOperation(intent);
@@ -115,7 +116,20 @@ public class Intents
     public static IntentOperation selectFromGallery(String[] types)
     {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*");
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, types);
+
+        return new IntentOperation(intent);
+    }
+
+    @NonNull
+    @TargetApi(VERSION_CODES.KITKAT)
+    public static IntentOperation selectFromGallery(String type, String[] types)
+    {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType(type);
         intent.putExtra(Intent.EXTRA_MIME_TYPES, types);
 
         return new IntentOperation(intent);
