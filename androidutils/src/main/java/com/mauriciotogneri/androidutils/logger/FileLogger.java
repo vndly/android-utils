@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+
 public class FileLogger
 {
     private final BufferedWriter bufferedWriter;
@@ -36,7 +38,8 @@ public class FileLogger
         }
     }
 
-    private BufferedWriter bufferedWriter(File parent, String pattern)
+    @NonNull
+    private BufferedWriter bufferedWriter(File parent, @NonNull String pattern)
     {
         try
         {

@@ -2,6 +2,8 @@ package com.mauriciotogneri.androidutils.logger;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 public abstract class AbstractLogger
 {
     private final boolean enabledNativeLogs;
@@ -18,6 +20,11 @@ public abstract class AbstractLogger
     protected AbstractLogger(boolean enabledNativeLogs)
     {
         this.enabledNativeLogs = enabledNativeLogs;
+    }
+
+    protected boolean enabledNativeLogs()
+    {
+        return enabledNativeLogs;
     }
 
     private String defaultTag()
@@ -47,7 +54,7 @@ public abstract class AbstractLogger
     {
         try
         {
-            if (enabledNativeLogs)
+            if (enabledNativeLogs())
             {
                 logNative(level, tag.toString(), message.toString(), exception);
             }
@@ -64,7 +71,7 @@ public abstract class AbstractLogger
     {
         try
         {
-            if (enabledNativeLogs)
+            if (enabledNativeLogs())
             {
                 logNative(level, tag.toString(), message.toString());
             }
@@ -81,7 +88,7 @@ public abstract class AbstractLogger
     {
         try
         {
-            if (enabledNativeLogs)
+            if (enabledNativeLogs())
             {
                 logNative(level, tag.toString(), exception.getMessage(), exception);
             }
@@ -100,7 +107,7 @@ public abstract class AbstractLogger
         {
             String tag = defaultTag();
 
-            if (enabledNativeLogs)
+            if (enabledNativeLogs())
             {
                 logNative(level, tag, message.toString());
             }
@@ -119,7 +126,7 @@ public abstract class AbstractLogger
         {
             String tag = defaultTag();
 
-            if (enabledNativeLogs)
+            if (enabledNativeLogs())
             {
                 logNative(level, tag, exception.getMessage(), exception);
             }
@@ -132,7 +139,7 @@ public abstract class AbstractLogger
         }
     }
 
-    public void logNative(LogLevel level, String tag, String message, Throwable throwable)
+    public void logNative(@NonNull LogLevel level, String tag, String message, Throwable throwable)
     {
         switch (level)
         {
@@ -158,7 +165,7 @@ public abstract class AbstractLogger
         }
     }
 
-    public void logNative(LogLevel level, String tag, String message)
+    public void logNative(@NonNull LogLevel level, String tag, String message)
     {
         switch (level)
         {
