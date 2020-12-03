@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 
 public abstract class AbstractLogger
 {
-    private final boolean enabledNativeLogs;
+    private final boolean enabledLogs;
 
     public enum LogLevel
     {
@@ -17,14 +17,14 @@ public abstract class AbstractLogger
         ERROR
     }
 
-    protected AbstractLogger(boolean enabledNativeLogs)
+    protected AbstractLogger(boolean enabledLogs)
     {
-        this.enabledNativeLogs = enabledNativeLogs;
+        this.enabledLogs = enabledLogs;
     }
 
-    protected boolean enabledNativeLogs()
+    protected boolean enabledLogs()
     {
-        return enabledNativeLogs;
+        return enabledLogs;
     }
 
     private String defaultTag()
@@ -54,7 +54,7 @@ public abstract class AbstractLogger
     {
         try
         {
-            if (enabledNativeLogs())
+            if (enabledLogs())
             {
                 logNative(level, tag.toString(), message.toString(), exception);
             }
@@ -71,7 +71,7 @@ public abstract class AbstractLogger
     {
         try
         {
-            if (enabledNativeLogs())
+            if (enabledLogs())
             {
                 logNative(level, tag.toString(), message.toString());
             }
@@ -88,7 +88,7 @@ public abstract class AbstractLogger
     {
         try
         {
-            if (enabledNativeLogs())
+            if (enabledLogs())
             {
                 logNative(level, tag.toString(), exception.getMessage(), exception);
             }
@@ -107,7 +107,7 @@ public abstract class AbstractLogger
         {
             String tag = defaultTag();
 
-            if (enabledNativeLogs())
+            if (enabledLogs())
             {
                 logNative(level, tag, message.toString());
             }
@@ -126,7 +126,7 @@ public abstract class AbstractLogger
         {
             String tag = defaultTag();
 
-            if (enabledNativeLogs())
+            if (enabledLogs())
             {
                 logNative(level, tag, exception.getMessage(), exception);
             }
