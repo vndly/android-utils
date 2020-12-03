@@ -2,9 +2,12 @@ package com.mauriciotogneri.androidutils.base;
 
 import java.lang.reflect.Field;
 
+import androidx.annotation.NonNull;
+
 public class BaseEvent
 {
     @Override
+    @NonNull
     public String toString()
     {
         StringBuilder builder = new StringBuilder();

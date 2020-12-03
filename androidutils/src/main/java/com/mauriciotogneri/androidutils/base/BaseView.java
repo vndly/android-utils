@@ -33,7 +33,6 @@ public abstract class BaseView<O, C>
         this.ui = viewContainer;
     }
 
-    @SuppressWarnings("unchecked")
     public View inflate(LayoutInflater inflater, ViewGroup container)
     {
         context = inflater.getContext();

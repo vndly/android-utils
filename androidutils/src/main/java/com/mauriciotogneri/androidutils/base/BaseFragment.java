@@ -104,7 +104,7 @@ public abstract class BaseFragment<V extends BaseView, P extends BaseParameters>
 
     @Override
     @SuppressWarnings("deprecation")
-    public void onAttach(Activity activity)
+    public void onAttach(@NonNull Activity activity)
     {
         super.onAttach(activity);
 
@@ -117,7 +117,7 @@ public abstract class BaseFragment<V extends BaseView, P extends BaseParameters>
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults)
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
     {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
@@ -137,7 +137,6 @@ public abstract class BaseFragment<V extends BaseView, P extends BaseParameters>
         handler.postDelayed(runnable, delay);
     }
 
-    @SuppressWarnings("unchecked")
     protected <A> A parameter(String key, A defaultValue)
     {
         FragmentParameters parameters = new FragmentParameters(getArguments());

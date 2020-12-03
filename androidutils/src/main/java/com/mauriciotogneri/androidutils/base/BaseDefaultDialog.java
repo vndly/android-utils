@@ -1,11 +1,13 @@
 package com.mauriciotogneri.androidutils.base;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -90,11 +92,16 @@ public abstract class BaseDefaultDialog<C> extends DialogFragment
         {
             try
             {
-                Window window = getDialog().getWindow();
+                Dialog dialog = getDialog();
 
-                if (window != null)
+                if (dialog != null)
                 {
-                    window.setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                    Window window = dialog.getWindow();
+
+                    if (window != null)
+                    {
+                        window.setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                    }
                 }
             }
             catch (Exception e)
@@ -117,7 +124,7 @@ public abstract class BaseDefaultDialog<C> extends DialogFragment
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState)
+    public void onSaveInstanceState(@NonNull Bundle outState)
     {
         // no call for super(), bug on API Level > 11
     }

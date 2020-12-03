@@ -105,7 +105,7 @@ public abstract class BaseActivity<V extends BaseView, P extends BaseParameters>
         return this;
     }
 
-    protected void replaceFragment(BaseFragment<?, ?> fragment)
+    protected void replaceFragment(@NonNull BaseFragment<?, ?> fragment)
     {
         removeFragments();
 
@@ -119,7 +119,7 @@ public abstract class BaseActivity<V extends BaseView, P extends BaseParameters>
         transaction.commitAllowingStateLoss();
     }
 
-    protected void addFragmentToStack(BaseFragment<?, ?> fragment)
+    protected void addFragmentToStack(@NonNull BaseFragment<?, ?> fragment)
     {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();

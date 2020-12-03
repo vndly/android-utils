@@ -37,7 +37,6 @@ public abstract class BaseCustomDialog<V extends BaseView, C> extends BaseDefaul
 
     @NonNull
     @Override
-    @SuppressWarnings("ConstantConditions")
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
         setCancelable(isDialogCancelable());

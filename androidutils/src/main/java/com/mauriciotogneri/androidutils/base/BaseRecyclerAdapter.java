@@ -1,6 +1,7 @@
 package com.mauriciotogneri.androidutils.base;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -209,7 +210,12 @@ public abstract class BaseRecyclerAdapter<T, V extends RecyclerView.ViewHolder> 
         {
             super(context, orientation);
 
-            setDrawable(ContextCompat.getDrawable(context, resId));
+            Drawable drawable = ContextCompat.getDrawable(context, resId);
+
+            if (drawable != null)
+            {
+                setDrawable(drawable);
+            }
         }
     }
 }
