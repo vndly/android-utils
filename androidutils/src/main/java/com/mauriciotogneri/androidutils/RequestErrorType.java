@@ -7,6 +7,8 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
+import androidx.annotation.NonNull;
+
 public class RequestErrorType
 {
     public enum Source
@@ -42,11 +44,13 @@ public class RequestErrorType
         return source;
     }
 
+    @NonNull
     public static RequestErrorType fromCode(int responseCode)
     {
         return new RequestErrorType(responseCode, Source.HTTP);
     }
 
+    @NonNull
     public static RequestErrorType fromException(Throwable throwable, Context context)
     {
         Connectivity connectivity = new Connectivity(context);
@@ -77,7 +81,7 @@ public class RequestErrorType
         return isException(throwable, SocketTimeoutException.class);
     }
 
-    private static boolean isException(Throwable throwable, Class<? extends Throwable> exception)
+    private static boolean isException(@NonNull Throwable throwable, @NonNull Class<? extends Throwable> exception)
     {
         return (exception.isInstance(throwable)) || throwable.toString().contains(exception.getSimpleName());
     }

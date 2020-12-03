@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import java.io.Serializable;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 public class FragmentBuilder<T extends Fragment>
@@ -21,8 +22,9 @@ public class FragmentBuilder<T extends Fragment>
         this.fragment = instance;
     }
 
+    @NonNull
     @SuppressWarnings("unchecked")
-    private T instance(Class<?> clazz)
+    private T instance(@NonNull Class<?> clazz)
     {
         try
         {
@@ -69,7 +71,6 @@ public class FragmentBuilder<T extends Fragment>
         parameters.putSerializable(key, value);
     }
 
-    @SuppressWarnings("unchecked")
     public T build()
     {
         if ((parameters.size() != 0) && (fragment != null))

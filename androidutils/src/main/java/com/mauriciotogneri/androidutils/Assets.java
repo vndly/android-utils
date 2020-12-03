@@ -22,27 +22,19 @@ public class Assets
         this.context = context;
     }
 
+    @SuppressWarnings("CharsetObjectCanBeUsed")
     public String read(String path) throws IOException
     {
         StringBuilder result = new StringBuilder();
-        BufferedReader reader = null;
 
-        try
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream(path), "UTF-8")))
         {
-            reader = new BufferedReader(new InputStreamReader(inputStream(path), "UTF-8"));
 
             String line;
 
             while ((line = reader.readLine()) != null)
             {
                 result.append(line).append("\n");
-            }
-        }
-        finally
-        {
-            if (reader != null)
-            {
-                reader.close();
             }
         }
 

@@ -1,5 +1,6 @@
 package com.mauriciotogneri.androidutils;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.util.Base64;
@@ -9,6 +10,7 @@ import com.mauriciotogneri.javautils.Json;
 import java.util.Map;
 import java.util.Set;
 
+@SuppressLint("ApplySharedPref")
 public class Preferences
 {
     private final SharedPreferences preferences;

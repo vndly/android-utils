@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 
 public class Image
 {
@@ -116,7 +117,7 @@ public class Image
         return write(outputStream, DEFAULT_COMPRESS_FORMAT, DEFAULT_QUALITY);
     }
 
-    public Image extract(Rect section)
+    public Image extract(@NonNull Rect section)
     {
         Bitmap result = Bitmap.createBitmap(section.width(), section.height(), bitmap.getConfig());
 
@@ -182,23 +183,27 @@ public class Image
 
     // ============================================================================================
 
-    public static Image fromFile(File file)
+    @NonNull
+    public static Image fromFile(@NonNull File file)
     {
         return new Image(BitmapFactory.decodeFile(file.getAbsolutePath()));
     }
 
-    public static Image fromFile(File file, int maxWidth, int maxHeight)
+    @NonNull
+    public static Image fromFile(@NonNull File file, int maxWidth, int maxHeight)
     {
         return from(options -> BitmapFactory.decodeFile(file.getAbsolutePath(), options), maxWidth, maxHeight);
     }
 
     // ============================================================================================
 
+    @NonNull
     public static Image fromByteArray(byte[] data)
     {
         return new Image(BitmapFactory.decodeByteArray(data, 0, data.length));
     }
 
+    @NonNull
     public static Image fromByteArray(byte[] data, int maxWidth, int maxHeight)
     {
         return from(options -> BitmapFactory.decodeByteArray(data, 0, data.length, options), maxWidth, maxHeight);
@@ -206,11 +211,13 @@ public class Image
 
     // ============================================================================================
 
+    @NonNull
     public static Image fromResource(Resources resources, @IdRes int resourceId)
     {
         return new Image(BitmapFactory.decodeResource(resources, resourceId));
     }
 
+    @NonNull
     public static Image fromResource(Resources resources, @IdRes int resourceId, int maxWidth, int maxHeight)
     {
         return from(options -> BitmapFactory.decodeResource(resources, resourceId, options), maxWidth, maxHeight);
@@ -218,11 +225,13 @@ public class Image
 
     // ============================================================================================
 
+    @NonNull
     public static Image fromInputStream(InputStream stream)
     {
         return new Image(BitmapFactory.decodeStream(stream));
     }
 
+    @NonNull
     public static Image fromInputStream(InputStream stream, int maxWidth, int maxHeight)
     {
         return from(options -> BitmapFactory.decodeStream(stream, null, options), maxWidth, maxHeight);
@@ -230,19 +239,22 @@ public class Image
 
     // ============================================================================================
 
-    public static Image fromUri(Context context, Uri uri) throws IOException
+    @NonNull
+    public static Image fromUri(@NonNull Context context, Uri uri) throws IOException
     {
         return fromInputStream(context.getContentResolver().openInputStream(uri));
     }
 
-    public static Image fromUri(Context context, Uri uri, int maxWidth, int maxHeight) throws IOException
+    @NonNull
+    public static Image fromUri(@NonNull Context context, Uri uri, int maxWidth, int maxHeight) throws IOException
     {
         return fromInputStream(context.getContentResolver().openInputStream(uri), maxWidth, maxHeight);
     }
 
     // ============================================================================================
 
-    public static Image from(BitmapDecoder decoder, int maxWidth, int maxHeight)
+    @NonNull
+    public static Image from(@NonNull BitmapDecoder decoder, int maxWidth, int maxHeight)
     {
         // decode with inJustDecodeBounds=true to check dimensions
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -258,7 +270,7 @@ public class Image
         return new Image(decoder.decode(options));
     }
 
-    private static int calculateInSampleSize(BitmapFactory.Options options, int maxWidth, int maxHeight)
+    private static int calculateInSampleSize(@NonNull BitmapFactory.Options options, int maxWidth, int maxHeight)
     {
         // raw height and width of image
         int height = options.outHeight;

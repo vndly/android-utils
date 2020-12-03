@@ -9,6 +9,8 @@ import android.os.SystemClock;
 
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.NonNull;
+
 public class TimerAlarm
 {
     private final long timeout;
@@ -17,7 +19,7 @@ public class TimerAlarm
     private final AlarmManager alarmManager;
     private final PendingIntent pendingIntent;
 
-    public TimerAlarm(Context context, Runnable task, Intent intent, int timeout, TimeUnit unit)
+    public TimerAlarm(@NonNull Context context, Runnable task, Intent intent, int timeout, @NonNull TimeUnit unit)
     {
         this.timeout = unit.toMillis(timeout);
         this.task = task;

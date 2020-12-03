@@ -179,7 +179,6 @@ public abstract class BaseActivity<V extends BaseView, P extends BaseParameters>
         handler.postDelayed(runnable, delay);
     }
 
-    @SuppressWarnings("unchecked")
     protected <A> A parameter(String key, A defaultValue)
     {
         ActivityParameters parameters = new ActivityParameters(getIntent());

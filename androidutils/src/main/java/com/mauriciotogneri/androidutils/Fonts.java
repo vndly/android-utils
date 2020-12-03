@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import androidx.annotation.DimenRes;
+import androidx.annotation.NonNull;
 
 public abstract class Fonts
 {
@@ -98,7 +99,7 @@ public abstract class Fonts
         }
     }
 
-    private void apply(TextView textView, FontType fontType)
+    private void apply(@NonNull TextView textView, @NonNull FontType fontType)
     {
         textView.setTypeface(fontType.typeface);
 

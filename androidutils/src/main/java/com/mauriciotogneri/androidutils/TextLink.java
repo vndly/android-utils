@@ -16,6 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 
 public class TextLink
 {
@@ -32,7 +33,7 @@ public class TextLink
         this.sections = new ArrayList<>();
     }
 
-    public void add(TextSection textSection)
+    public void add(@NonNull TextSection textSection)
     {
         this.patterns.add(textSection.pattern);
         this.sections.add(textSection);
@@ -77,7 +78,8 @@ public class TextLink
         target.setText(spannable);
     }
 
-    private CharacterStyle normalSpan(TextSection textSection)
+    @NonNull
+    private CharacterStyle normalSpan(@NonNull TextSection textSection)
     {
         return new NormalSpan()
         {
@@ -107,7 +109,8 @@ public class TextLink
         };
     }
 
-    private CharacterStyle clickableSpan(TextSection textSection, String link)
+    @NonNull
+    private CharacterStyle clickableSpan(@NonNull TextSection textSection, String link)
     {
         return new ClickableSpan()
         {

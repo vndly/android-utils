@@ -9,6 +9,8 @@ import android.util.DisplayMetrics;
 
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+
 public class Localization
 {
     private final Context context;
@@ -56,7 +58,7 @@ public class Localization
         return context.getResources();
     }
 
-    private Configuration configuration(Resources resources)
+    private Configuration configuration(@NonNull Resources resources)
     {
         return resources.getConfiguration();
     }
@@ -75,14 +77,13 @@ public class Localization
         }
     }
 
-    @SuppressWarnings("deprecation")
-    private Locale systemLocaleLegacy(Configuration config)
+    private Locale systemLocaleLegacy(@NonNull Configuration config)
     {
         return config.locale;
     }
 
     @TargetApi(Build.VERSION_CODES.N)
-    private Locale systemLocale(Configuration config)
+    private Locale systemLocale(@NonNull Configuration config)
     {
         return config.getLocales().get(0);
     }
@@ -101,22 +102,20 @@ public class Localization
         }
     }
 
-    @SuppressWarnings("deprecation")
-    private void systemLocaleLegacy(Configuration config, Locale locale)
+    private void systemLocaleLegacy(@NonNull Configuration config, Locale locale)
     {
         config.locale = locale;
     }
 
     @TargetApi(Build.VERSION_CODES.N)
-    private void systemLocale(Configuration config, Locale locale)
+    private void systemLocale(@NonNull Configuration config, Locale locale)
     {
         config.setLocale(locale);
     }
 
     // =============================================================================================
 
-    @SuppressWarnings("deprecation")
-    private void updateSystemConfiguration(Resources resources, Configuration config, DisplayMetrics displayMetrics)
+    private void updateSystemConfiguration(@NonNull Resources resources, Configuration config, DisplayMetrics displayMetrics)
     {
         resources.updateConfiguration(config, displayMetrics);
     }

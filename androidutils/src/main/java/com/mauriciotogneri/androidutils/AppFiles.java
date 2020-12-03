@@ -16,17 +16,25 @@ public class AppFiles
 
     public void clean()
     {
-        File appDir = new File(context.getCacheDir().getParent());
+        String parent = context.getCacheDir().getParent();
 
-        if (appDir.exists())
+        if (parent != null)
         {
-            File[] children = appDir.listFiles();
+            File appDir = new File(parent);
 
-            for (File child : children)
+            if (appDir.exists())
             {
-                if (!TextUtils.equals(child.getName(), "lib"))
+                File[] children = appDir.listFiles();
+
+                if (children != null)
                 {
-                    delete(child);
+                    for (File child : children)
+                    {
+                        if (!TextUtils.equals(child.getName(), "lib"))
+                        {
+                            delete(child);
+                        }
+                    }
                 }
             }
         }
@@ -41,9 +49,12 @@ public class AppFiles
             {
                 File[] list = file.listFiles();
 
-                for (File element : list)
+                if (list != null)
                 {
-                    delete(element);
+                    for (File element : list)
+                    {
+                        delete(element);
+                    }
                 }
             }
 
