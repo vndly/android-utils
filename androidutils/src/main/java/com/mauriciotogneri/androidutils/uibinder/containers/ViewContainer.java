@@ -1,7 +1,8 @@
 package com.mauriciotogneri.androidutils.uibinder.containers;
 
-import android.support.annotation.IdRes;
 import android.view.View;
+
+import androidx.annotation.IdRes;
 
 public class ViewContainer implements UiContainer
 {

@@ -1,9 +1,10 @@
 package com.mauriciotogneri.androidutils;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 
 import java.io.Serializable;
+
+import androidx.fragment.app.Fragment;
 
 public class FragmentBuilder<T extends Fragment>
 {

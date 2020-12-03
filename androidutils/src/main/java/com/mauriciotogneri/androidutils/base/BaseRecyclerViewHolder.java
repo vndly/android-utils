@@ -1,11 +1,12 @@
 package com.mauriciotogneri.androidutils.base;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 
 import com.mauriciotogneri.androidutils.uibinder.UiBinder;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class BaseRecyclerViewHolder extends RecyclerView.ViewHolder implements OnClickListener, OnLongClickListener
 {

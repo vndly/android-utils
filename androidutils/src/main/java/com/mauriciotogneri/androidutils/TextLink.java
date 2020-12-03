@@ -1,6 +1,5 @@
 package com.mauriciotogneri.androidutils;
 
-import android.support.annotation.ColorInt;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -15,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import androidx.annotation.ColorInt;
 
 public class TextLink
 {

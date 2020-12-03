@@ -2,6 +2,8 @@ package com.mauriciotogneri.androidutils;
 
 import android.content.Context;
 
+import com.mauriciotogneri.androidutils.fileprovider.Connectivity;
+
 import java.net.ConnectException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;

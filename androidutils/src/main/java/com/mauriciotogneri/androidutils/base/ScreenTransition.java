@@ -1,9 +1,10 @@
 package com.mauriciotogneri.androidutils.base;
 
 import android.app.Activity;
-import android.support.annotation.AnimRes;
-import android.support.annotation.AnimatorRes;
-import android.support.v4.app.FragmentTransaction;
+
+import androidx.annotation.AnimRes;
+import androidx.annotation.AnimatorRes;
+import androidx.fragment.app.FragmentTransaction;
 
 public class ScreenTransition
 {

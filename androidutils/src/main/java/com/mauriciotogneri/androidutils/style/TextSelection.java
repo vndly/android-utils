@@ -1,7 +1,5 @@
 package com.mauriciotogneri.androidutils.style;
 
-import android.support.annotation.ColorInt;
-
 import com.mauriciotogneri.androidutils.style.styles.BoldStyle;
 import com.mauriciotogneri.androidutils.style.styles.ClickableStyle;
 import com.mauriciotogneri.androidutils.style.styles.ClickableStyle.ClickableStyleCallback;
@@ -13,6 +11,8 @@ import com.mauriciotogneri.androidutils.style.styles.UnderlineStyle;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.ColorInt;
 
 public class TextSelection
 {

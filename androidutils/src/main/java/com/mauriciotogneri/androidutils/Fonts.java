@@ -3,13 +3,14 @@ package com.mauriciotogneri.androidutils;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
-import android.support.annotation.DimenRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.annotation.DimenRes;
 
 public abstract class Fonts
 {

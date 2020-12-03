@@ -5,10 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager.LayoutParams;
@@ -16,6 +12,11 @@ import android.view.WindowManager.LayoutParams;
 import com.mauriciotogneri.androidutils.ActivityParameters;
 import com.mauriciotogneri.androidutils.permissions.Permissions;
 import com.mauriciotogneri.androidutils.permissions.PermissionsResult;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 public abstract class BaseActivity<V extends BaseView, P extends BaseParameters> extends AppCompatActivity implements DialogDisplayer
 {

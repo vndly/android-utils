@@ -12,7 +12,6 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
-import android.support.annotation.IdRes;
 
 import com.mauriciotogneri.javautils.Record;
 
@@ -22,6 +21,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import androidx.annotation.IdRes;
 
 public class Image
 {

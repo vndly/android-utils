@@ -8,13 +8,15 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.provider.MediaStore;
-import android.support.annotation.ColorRes;
-import android.support.customtabs.CustomTabsIntent;
-import android.support.v4.content.ContextCompat;
 
 import com.mauriciotogneri.javautils.Encoding;
 
 import java.util.ArrayList;
+
+import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
+import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.core.content.ContextCompat;
 
 public class Intents
 {
@@ -154,7 +156,7 @@ public class Intents
         return new IntentOperation(intent);
     }
 
-    public static IntentOperation openAppPlayStore(String packageName)
+    public static IntentOperation openAppPlayStore(@NonNull String packageName)
     {
         String uri = String.format("market://details?id=%s", packageName);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
@@ -166,10 +168,10 @@ public class Intents
     {
         String uri = String.format("http://play.google.com/store/apps/details?id=%s", packageName);
 
-        openWebpage(context, uri, android.R.color.white);
+        openWebPage(context, uri, android.R.color.white);
     }
 
-    public static void openWebpage(Context context, String url, @ColorRes int color)
+    public static void openWebPage(Context context, String url, @ColorRes int color)
     {
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         builder.addDefaultShareMenuItem();

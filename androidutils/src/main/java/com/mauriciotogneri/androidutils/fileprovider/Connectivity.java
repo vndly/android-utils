@@ -1,9 +1,11 @@
-package com.mauriciotogneri.androidutils;
+package com.mauriciotogneri.androidutils.fileprovider;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
+import androidx.annotation.NonNull;
 
 public class Connectivity
 {
@@ -16,7 +18,7 @@ public class Connectivity
         NOT_CONNECTED
     }
 
-    public Connectivity(Context context)
+    public Connectivity(@NonNull Context context)
     {
         this.connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }

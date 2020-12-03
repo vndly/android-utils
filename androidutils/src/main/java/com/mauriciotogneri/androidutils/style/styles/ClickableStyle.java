@@ -1,9 +1,10 @@
 package com.mauriciotogneri.androidutils.style.styles;
 
-import android.support.annotation.NonNull;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 public class ClickableStyle extends ClickableSpan
 {

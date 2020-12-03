@@ -1,8 +1,9 @@
 package com.mauriciotogneri.androidutils.style.styles;
 
-import android.support.annotation.ColorInt;
 import android.text.TextPaint;
 import android.text.style.CharacterStyle;
+
+import androidx.annotation.ColorInt;
 
 public class ColorStyle extends CharacterStyle
 {

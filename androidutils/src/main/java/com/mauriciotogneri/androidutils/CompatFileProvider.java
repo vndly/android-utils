@@ -2,10 +2,11 @@ package com.mauriciotogneri.androidutils;
 
 import android.database.Cursor;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v4.content.FileProvider;
 
-import com.commonsware.cwac.provider.LegacyCompatCursorWrapper;
+import com.mauriciotogneri.androidutils.fileprovider.LegacyCompatCursorWrapper;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 
 public class CompatFileProvider extends FileProvider
 {

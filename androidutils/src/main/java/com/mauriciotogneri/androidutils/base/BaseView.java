@@ -3,11 +3,6 @@ package com.mauriciotogneri.androidutils.base;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.ColorRes;
-import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.StringRes;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +11,12 @@ import android.widget.LinearLayout;
 import com.mauriciotogneri.androidutils.Keyboard;
 import com.mauriciotogneri.androidutils.Keyboard.KeyboardObserver;
 import com.mauriciotogneri.androidutils.uibinder.UiBinder;
+
+import androidx.annotation.ColorRes;
+import androidx.annotation.IdRes;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
 
 public abstract class BaseView<O, C>
 {
