@@ -159,7 +159,7 @@ public abstract class BaseActivity<V extends BaseView, P extends BaseParameters>
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults)
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
     {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
@@ -205,7 +205,7 @@ public abstract class BaseActivity<V extends BaseView, P extends BaseParameters>
 
     @Override
     @SuppressLint("MissingSuperCall")
-    protected void onSaveInstanceState(Bundle outState)
+    protected void onSaveInstanceState(@NonNull Bundle outState)
     {
         // no call for super(), bug on API Level > 11
     }

@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 public class Permissions
 {
@@ -47,7 +48,10 @@ public class Permissions
             @Override
             public Context context()
             {
-                return fragment.getContext().getApplicationContext();
+                Context context = fragment.getContext();
+                FragmentActivity fragmentActivity = fragment.getActivity();
+
+                return (context != null) ? context.getApplicationContext() : fragmentActivity;
             }
 
             @Override

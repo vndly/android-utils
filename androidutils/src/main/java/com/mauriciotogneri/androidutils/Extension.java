@@ -19,7 +19,7 @@ public class Extension
         {
             String name = file.getName();
 
-            return name.substring(name.lastIndexOf(".") + 1, name.length());
+            return name.substring(name.lastIndexOf(".") + 1);
         }
         catch (Exception e)
         {

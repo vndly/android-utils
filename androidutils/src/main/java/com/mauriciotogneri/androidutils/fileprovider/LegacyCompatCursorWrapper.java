@@ -1,16 +1,3 @@
-/***
- Copyright (c) 2015-2016 CommonsWare, LLC
- Licensed under the Apache License, Version 2.0 (the "License"); you may
- not use this file except in compliance with the License. You may obtain
- a copy of the License at
- http://www.apache.org/licenses/LICENSE-2.0
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
- */
-
 package com.mauriciotogneri.androidutils.fileprovider;
 
 import android.database.Cursor;
@@ -22,53 +9,23 @@ import java.util.Arrays;
 import static android.provider.MediaStore.MediaColumns.DATA;
 import static android.provider.MediaStore.MediaColumns.MIME_TYPE;
 
-/**
- * Wraps the Cursor returned by an ordinary FileProvider,
- * StreamProvider, or other ContentProvider. If the query()
- * requests _DATA or MIME_TYPE, adds in some values for
- * that column, so the client getting this Cursor is less
- * likely to crash. Of course, clients should not be requesting
- * either of these columns in the first place...
- */
 public class LegacyCompatCursorWrapper extends CursorWrapper
 {
-    final private int fakeDataColumn;
-    final private int fakeMimeTypeColumn;
-    final private String mimeType;
-    final private Uri uriForDataColumn;
+    private final int fakeDataColumn;
+    private final int fakeMimeTypeColumn;
+    private final String mimeType;
+    private final Uri uriForDataColumn;
 
-    /**
-     * Constructor.
-     *
-     * @param cursor the Cursor to be wrapped
-     */
     public LegacyCompatCursorWrapper(Cursor cursor)
     {
         this(cursor, null);
     }
 
-    /**
-     * Constructor.
-     *
-     * @param cursor   the Cursor to be wrapped
-     * @param mimeType the MIME type of the content represented
-     *                 by the Uri that generated this Cursor, should
-     *                 we need it
-     */
     public LegacyCompatCursorWrapper(Cursor cursor, String mimeType)
     {
         this(cursor, mimeType, null);
     }
 
-    /**
-     * Constructor.
-     *
-     * @param cursor           the Cursor to be wrapped
-     * @param mimeType         the MIME type of the content represented
-     *                         by the Uri that generated this Cursor, should
-     *                         we need it
-     * @param uriForDataColumn Uri to return for the _DATA column
-     */
     public LegacyCompatCursorWrapper(Cursor cursor, String mimeType,
                                      Uri uriForDataColumn)
     {
@@ -101,9 +58,6 @@ public class LegacyCompatCursorWrapper extends CursorWrapper
         this.mimeType = mimeType;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int getColumnCount()
     {
@@ -122,9 +76,6 @@ public class LegacyCompatCursorWrapper extends CursorWrapper
         return (count);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int getColumnIndex(String columnName)
     {
@@ -143,9 +94,6 @@ public class LegacyCompatCursorWrapper extends CursorWrapper
         return (super.getColumnIndex(columnName));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getColumnName(int columnIndex)
     {
@@ -162,9 +110,6 @@ public class LegacyCompatCursorWrapper extends CursorWrapper
         return (super.getColumnName(columnIndex));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String[] getColumnNames()
     {
@@ -189,9 +134,6 @@ public class LegacyCompatCursorWrapper extends CursorWrapper
         return (result);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getString(int columnIndex)
     {
@@ -213,9 +155,6 @@ public class LegacyCompatCursorWrapper extends CursorWrapper
         return (super.getString(columnIndex));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int getType(int columnIndex)
     {
@@ -232,18 +171,11 @@ public class LegacyCompatCursorWrapper extends CursorWrapper
         return (super.getType(columnIndex));
     }
 
-    /**
-     * @return true if the Cursor has a _DATA column, false otherwise
-     */
     private boolean cursorHasDataColumn()
     {
         return (fakeDataColumn == -1);
     }
 
-    /**
-     * @return true if the Cursor has a MIME_TYPE column, false
-     * otherwise
-     */
     private boolean cursorHasMimeTypeColumn()
     {
         return (fakeMimeTypeColumn == -1);

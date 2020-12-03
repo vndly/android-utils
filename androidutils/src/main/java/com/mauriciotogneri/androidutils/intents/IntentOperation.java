@@ -1,5 +1,6 @@
 package com.mauriciotogneri.androidutils.intents;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -88,6 +89,7 @@ public class IntentOperation
         }
     }
 
+    @SuppressLint("QueryPermissionsNeeded")
     private boolean startActivity(@NonNull IntentTarget target, @NonNull Intent intent)
     {
         if (intent.resolveActivity(target.context().getPackageManager()) != null)
@@ -102,6 +104,7 @@ public class IntentOperation
         }
     }
 
+    @SuppressLint("QueryPermissionsNeeded")
     private boolean startActivityForResult(@NonNull IntentTarget target, @NonNull Intent intent, int requestCode)
     {
         if (intent.resolveActivity(target.context().getPackageManager()) != null)
