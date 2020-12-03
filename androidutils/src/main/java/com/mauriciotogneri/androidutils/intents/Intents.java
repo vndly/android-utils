@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
+import androidx.browser.customtabs.CustomTabColorSchemeParams;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.content.ContextCompat;
 
@@ -194,10 +195,13 @@ public class Intents
 
     public static void openWebPage(Context context, String url, @ColorRes int color)
     {
-        // TODO
+        CustomTabColorSchemeParams params = new CustomTabColorSchemeParams.Builder()
+                .setToolbarColor(ContextCompat.getColor(context, color))
+                .build();
+
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-        builder.addDefaultShareMenuItem();
-        builder.setToolbarColor(ContextCompat.getColor(context, color));
+        builder.setShareState(CustomTabsIntent.SHARE_STATE_ON);
+        builder.setDefaultColorSchemeParams(params);
 
         CustomTabsIntent customTabsIntent = builder.build();
         customTabsIntent.launchUrl(context, Uri.parse(url));
