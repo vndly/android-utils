@@ -4,6 +4,8 @@ import android.content.pm.PackageManager;
 
 import java.lang.reflect.Method;
 
+import androidx.annotation.NonNull;
+
 public class PermissionsResult
 {
     private final Object target;
@@ -13,7 +15,7 @@ public class PermissionsResult
         this.target = target;
     }
 
-    public void process(int requestCode, String[] permissions, int[] grantResults)
+    public void process(int requestCode, String[] permissions, @NonNull int[] grantResults)
     {
         for (int i = 0; i < grantResults.length; i++)
         {
@@ -21,7 +23,7 @@ public class PermissionsResult
         }
     }
 
-    private void callTarget(Object target, int requestCode, String permission, int status)
+    private void callTarget(@NonNull Object target, int requestCode, String permission, int status)
     {
         for (Method method : target.getClass().getMethods())
         {

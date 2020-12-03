@@ -10,6 +10,7 @@ import com.mauriciotogneri.javautils.Lists;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -87,7 +88,7 @@ public class Permissions
         permissionsResult.process(requestCode, permissions, new int[permissions.length]);
     }
 
-    private String[] permissionsWithStatus(Context context, int status, String... permissions)
+    private String[] permissionsWithStatus(Context context, int status, @NonNull String... permissions)
     {
         List<String> result = new ArrayList<>();
 
@@ -112,7 +113,7 @@ public class Permissions
         return checkPermission(context, PackageManager.PERMISSION_DENIED, permissions);
     }
 
-    private static boolean checkPermission(Context context, int status, String... permissions)
+    private static boolean checkPermission(Context context, int status, @NonNull String... permissions)
     {
         boolean granted = true;
 
