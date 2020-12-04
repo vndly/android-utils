@@ -9,8 +9,6 @@ import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.provider.MediaStore;
 
-import com.mauriciotogneri.javautils.Encoding;
-
 import java.util.ArrayList;
 
 import androidx.annotation.ColorRes;
@@ -40,6 +38,17 @@ public class Intents
         intent.setAction(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_TEXT, url);
         intent.setType("text/url");
+
+        return new IntentOperation(intent);
+    }
+
+    @NonNull
+    public static IntentOperation shareLink(String url, String type)
+    {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, url);
+        intent.setType(type);
 
         return new IntentOperation(intent);
     }
@@ -138,7 +147,8 @@ public class Intents
     @NonNull
     public static IntentOperation openUri(Uri uri)
     {
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(uri);
 
         return new IntentOperation(intent);
     }
@@ -148,6 +158,16 @@ public class Intents
     {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(uri, type);
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        return new IntentOperation(intent);
+    }
+
+    @NonNull
+    public static IntentOperation openFile(Uri uri)
+    {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(uri);
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         return new IntentOperation(intent);
@@ -178,9 +198,9 @@ public class Intents
     }
 
     @NonNull
-    public static IntentOperation address(String address) throws Exception
+    public static IntentOperation address(String address)
     {
-        Uri uri = Uri.parse(String.format("geo:0,0?q=%s", Encoding.urlEncode(address)));
+        Uri uri = Uri.parse(String.format("geo:0,0?q=%s", Uri.encode(address)));
 
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
