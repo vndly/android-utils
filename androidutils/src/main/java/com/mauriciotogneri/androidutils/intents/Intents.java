@@ -136,6 +136,14 @@ public class Intents
     }
 
     @NonNull
+    public static IntentOperation openUri(Uri uri)
+    {
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+
+        return new IntentOperation(intent);
+    }
+
+    @NonNull
     public static IntentOperation openFile(Uri uri, String type)
     {
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -181,7 +189,7 @@ public class Intents
     }
 
     @NonNull
-    public static IntentOperation route(double latitude, double longitude)
+    public static IntentOperation coordinates(double latitude, double longitude)
     {
         Uri uri = Uri.parse(String.format("geo:%s,%s?q=%s,%s", latitude, longitude, latitude, longitude));
 
@@ -200,11 +208,11 @@ public class Intents
         return new IntentOperation(intent);
     }
 
-    public static void openAppPlayStoreOnWeb(Context context, String packageName)
+    public static void openAppPlayStoreOnWeb(Context context, String packageName, @ColorRes int color)
     {
         String uri = String.format("http://play.google.com/store/apps/details?id=%s", packageName);
 
-        openWebPage(context, uri, android.R.color.white);
+        openWebPage(context, uri, color);
     }
 
     public static void openWebPage(Context context, String url, @ColorRes int color)
