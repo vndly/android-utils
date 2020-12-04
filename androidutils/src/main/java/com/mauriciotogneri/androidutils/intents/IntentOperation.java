@@ -29,9 +29,9 @@ public class IntentOperation
         return new IntentOperation(intent, requestCode);
     }
 
-    public boolean send(Activity activity)
+    public void send(Activity activity)
     {
-        return send(new IntentTarget()
+        send(new IntentTarget()
         {
             @Override
             public Context context()
@@ -53,9 +53,9 @@ public class IntentOperation
         });
     }
 
-    public boolean send(Fragment fragment)
+    public void send(Fragment fragment)
     {
-        return send(new IntentTarget()
+        send(new IntentTarget()
         {
             @Override
             public Context context()
@@ -77,45 +77,27 @@ public class IntentOperation
         });
     }
 
-    public boolean send(IntentTarget target)
+    public void send(IntentTarget target)
     {
         if (requestCode == null)
         {
-            return startActivity(target, intent);
+            startActivity(target, intent);
         }
         else
         {
-            return startActivityForResult(target, intent, requestCode);
+            startActivityForResult(target, intent, requestCode);
         }
     }
 
     @SuppressLint("QueryPermissionsNeeded")
-    private boolean startActivity(@NonNull IntentTarget target, @NonNull Intent intent)
+    private void startActivity(@NonNull IntentTarget target, @NonNull Intent intent)
     {
-        if (intent.resolveActivity(target.context().getPackageManager()) != null)
-        {
-            target.startActivity(intent);
-
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        target.startActivity(intent);
     }
 
     @SuppressLint("QueryPermissionsNeeded")
-    private boolean startActivityForResult(@NonNull IntentTarget target, @NonNull Intent intent, int requestCode)
+    private void startActivityForResult(@NonNull IntentTarget target, @NonNull Intent intent, int requestCode)
     {
-        if (intent.resolveActivity(target.context().getPackageManager()) != null)
-        {
-            target.startActivityForResult(intent, requestCode);
-
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        target.startActivityForResult(intent, requestCode);
     }
 }
