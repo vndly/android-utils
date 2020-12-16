@@ -8,20 +8,5 @@ A collection of utility classes for Android.
 Add the following dependency to your module `build.gradle` file:
 
 ```groovy
-implementation 'com.mauriciotogneri:androidutils:4.14.0'
-```
-
-And the following dependency to your app `build.gradle` file:
-
-```groovy
-allprojects
-{
-    repositories
-    {
-        maven
-        {
-            url 'https://s3.amazonaws.com/repo.commonsware.com'
-        }
-    }
-}
+implementation 'com.mauriciotogneri:androidutils:4.15.0'
 ```

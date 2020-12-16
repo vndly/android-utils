@@ -17,12 +17,14 @@ import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
+import androidx.viewbinding.ViewBinding;
 
 public abstract class BaseView<O, C>
 {
     private View view;
     private Context context;
     private final int viewId;
+    private final ViewBinding viewBinding;
     protected final C ui;
     protected final O observer;
 
@@ -31,12 +33,39 @@ public abstract class BaseView<O, C>
         this.viewId = viewId;
         this.observer = observer;
         this.ui = viewContainer;
+        this.viewBinding = null;
+    }
+
+    @SuppressWarnings("unchecked")
+    protected BaseView(O observer, ViewBinding viewBinding)
+    {
+        this.viewId = 0;
+        this.observer = observer;
+        this.ui = (C) viewBinding;
+        this.viewBinding = viewBinding;
     }
 
     public View inflate(LayoutInflater inflater, ViewGroup container)
     {
         context = inflater.getContext();
-        view = inflater.inflate(viewId, container, false);
+
+        if (viewId != 0)
+        {
+            view = inflateOld(inflater, container);
+        }
+        else if (viewBinding != null)
+        {
+            view = inflateNew();
+        }
+
+        initialize();
+
+        return view;
+    }
+
+    private View inflateOld(LayoutInflater inflater, ViewGroup container)
+    {
+        View view = inflater.inflate(viewId, container, false);
 
         if (container == null)
         {
@@ -52,9 +81,12 @@ public abstract class BaseView<O, C>
             uiBinder.bind(view, ui);
         }
 
-        initialize();
-
         return view;
+    }
+
+    private View inflateNew()
+    {
+        return viewBinding.getRoot();
     }
 
     protected void initialize()
