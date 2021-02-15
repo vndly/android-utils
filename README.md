@@ -1,4 +1,4 @@
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/mauriciotogneri/androidutils/blob/master/LICENSE.md)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/mauriciotogneri/android-utils/blob/master/LICENSE.md)
 
 # Android Utils
 A collection of utility classes for Android.
