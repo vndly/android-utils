@@ -4,7 +4,7 @@
 A collection of utility classes for Android.
 
 ## Installation
-Add the following dependency to your root `build.gradle`:
+Add the following code to your root `build.gradle`:
 
 ```groovy
 allprojects
@@ -19,7 +19,7 @@ allprojects
 }
 ```
 
-Add the following dependency to your module `build.gradle`:
+Add the following code to your module `build.gradle`:
 ```groovy
 implementation 'com.github.mauriciotogneri:android-utils:4.16.0'
 ```
