@@ -21,5 +21,5 @@ allprojects
 
 Add the following code to your module `build.gradle`:
 ```groovy
-implementation 'com.github.mauriciotogneri:android-utils:4.16.0'
+implementation 'com.github.mauriciotogneri:android-utils:4.17.0'
 ```
