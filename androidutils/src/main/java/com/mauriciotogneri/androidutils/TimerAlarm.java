@@ -24,7 +24,8 @@ public class TimerAlarm
         this.timeout = unit.toMillis(timeout);
         this.task = task;
         this.alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        this.pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        int flag = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0;
+        this.pendingIntent = PendingIntent.getBroadcast(context, 0, intent, flag);
     }
 
     public synchronized void start()
